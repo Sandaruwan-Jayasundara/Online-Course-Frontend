@@ -1,14 +1,11 @@
 import 'dart:ui';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/services/user.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 
-import '../https/api.dart';
-import '../https/config.dart';
-import '../models/login_request.dart';
 
 class Login extends StatefulWidget {
   const Login({ Key? key }) : super(key: key);
@@ -208,12 +205,12 @@ class _LoginState extends State<Login> {
                     isApiCallProcess = true;
                   });
 
-                  LoginRequest model = LoginRequest(
-                    username: userName,
+                 User user = User(
+                    name: userName,
                     password: password,
                   );
 
-                  Api.login(model).then(
+                   User.loginUser(user).then(
                     (response) {
                       setState(() {
                         isApiCallProcess = false;
@@ -228,7 +225,7 @@ class _LoginState extends State<Login> {
                       } else {
                         FormHelper.showSimpleAlertDialog(
                           context,
-                          Config.appName,
+                          "Course App",
                           "Invalid Username/Password !!",
                           "OK",
                           () {

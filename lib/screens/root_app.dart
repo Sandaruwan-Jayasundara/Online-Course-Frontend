@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/account.dart';
 import 'package:frontend/screens/chat.dart';

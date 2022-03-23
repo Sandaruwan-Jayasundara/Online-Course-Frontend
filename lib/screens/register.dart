@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
-
-import '../https/api.dart';
-import '../https/config.dart';
-import '../models/register_request.dart';
+import '../services/user.dart';
 
 class Register extends StatefulWidget {
-  const Register({ Key? key }) : super(key: key);
+  const Register({Key? key}) : super(key: key);
 
   @override
   State<Register> createState() => _RegisterState();
@@ -119,8 +116,7 @@ class _RegisterState extends State<Register> {
               borderRadius: 10,
             ),
           ),
-
-        Padding(
+          Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FormHelper.inputFieldWidget(
               context,
@@ -145,8 +141,6 @@ class _RegisterState extends State<Register> {
               borderRadius: 10,
             ),
           ),
-
-
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FormHelper.inputFieldWidget(
@@ -184,7 +178,6 @@ class _RegisterState extends State<Register> {
               ),
             ),
           ),
-  
           const SizedBox(
             height: 60,
           ),
@@ -196,23 +189,23 @@ class _RegisterState extends State<Register> {
                   setState(() {
                     isApiCallProcess = true;
                   });
-
-                  RegisterRequest model = RegisterRequest(
-                    username: userName,
+          
+                  User user = User(
+                    name: userName,
                     email: email,
                     password: password,
                   );
 
-                  Api.register(model).then(
+                  User.registerUser(user).then(
                     (response) {
                       setState(() {
                         isApiCallProcess = false;
                       });
 
-                      if (response.data != null) {
+                      if (response != null) {
                         FormHelper.showSimpleAlertDialog(
                           context,
-                          Config.appName,
+                          "Course App",
                           "Registration Successful. Please login to the account",
                           "OK",
                           () {
@@ -226,8 +219,8 @@ class _RegisterState extends State<Register> {
                       } else {
                         FormHelper.showSimpleAlertDialog(
                           context,
-                          Config.appName,
-                          response.message,
+                          "Course App",
+                          "Login failed",
                           "OK",
                           () {
                             Navigator.of(context).pop();

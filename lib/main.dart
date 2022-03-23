@@ -22,8 +22,7 @@ class MyApp extends StatelessWidget {
       //   '/register' :(context) => const Register(),
       // } ,
 
-      home: RootApp(),
+      home: Login(),
     );
   }
-
 }
