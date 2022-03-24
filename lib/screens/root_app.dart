@@ -4,6 +4,11 @@ import 'package:frontend/screens/chat.dart';
 import 'package:frontend/theme/color.dart';
 import 'package:frontend/utils/constant.dart';
 import 'package:frontend/widgets/bottombar_item.dart';
+
+
+import 'package:frontend/screens/addcategory.dart';
+
+
 import 'home.dart';
 
 class RootApp extends StatefulWidget {
@@ -24,7 +29,7 @@ class _RootAppState extends State<RootApp>  with TickerProviderStateMixin{
     {
       "icon" : "assets/icons/search.svg",
       "active_icon" : "assets/icons/search.svg",
-      "page" : Container(),
+      "page" : ChatPage(),
     },
     {
       "icon" : "assets/icons/play.svg",

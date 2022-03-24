@@ -1,25 +1,22 @@
-import 'dart:ui';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/services/user.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 
-
-class Login extends StatefulWidget {
-  const Login({ Key? key }) : super(key: key);
+class Chats extends StatefulWidget {
+  const Chats({ Key? key }) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
-} 
+  State<Chats> createState() => _ChatsState();
+}
 
-class _LoginState extends State<Login> {
+class _ChatsState extends State<Chats> {
   bool isApiCallProcess = false;
   bool hidePassword = true;
-  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  String? email;
+  static final GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+  String? userName;
   String? password;
+  String? email;
 
   @override
   void initState() {
@@ -34,7 +31,7 @@ class _LoginState extends State<Login> {
         body: ProgressHUD(
           child: Form(
             key: globalFormKey,
-            child: _loginUI(context),
+            child: _chatsUI(context),
           ),
           inAsyncCall: isApiCallProcess,
           opacity: 0.3,
@@ -44,7 +41,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget _loginUI(BuildContext context) {
+  Widget _chatsUI(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -63,8 +60,6 @@ class _LoginState extends State<Login> {
                 ],
               ),
               borderRadius: BorderRadius.only(
-                //topLeft: Radius.circular(100),
-                //topRight: Radius.circular(150),
                 bottomRight: Radius.circular(100),
                 bottomLeft: Radius.circular(100),
               ),
@@ -72,23 +67,10 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 20),
-                //   child: Center(
-                //     child: Text(
-                //       "Shopping App",
-                //       style: TextStyle(
-                //         fontWeight: FontWeight.bold,
-                //         fontSize: 40,
-                //         color: HexColor("#283B71"),
-                //       ),
-                //     ),
-                //   ),
-                //),
                 Align(
                   alignment: Alignment.center,
                   child: Image.asset(
-                       "assets/Logo/_logo.png",
+                    "assets/Logo/_logo.png",
                     fit: BoxFit.contain,
                     width: 250,
                   ),
@@ -99,10 +81,10 @@ class _LoginState extends State<Login> {
           const Padding(
             padding: EdgeInsets.only(left: 20, bottom: 30, top: 50),
             child: Text(
-              "Login",
+              "Register",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: 25,
                 color: Colors.white,
               ),
             ),
@@ -121,7 +103,7 @@ class _LoginState extends State<Login> {
                 return null;
               },
               (onSavedVal) => {
-                email = onSavedVal,
+                userName = onSavedVal,
               },
               initialValue: "",
               obscureText: false,
@@ -133,6 +115,13 @@ class _LoginState extends State<Login> {
               borderRadius: 10,
             ),
           ),
+          
+          TextFormField(
+              minLines: 6, // any number you need (It works as the rows for the textarea)
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+            ),
+          
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FormHelper.inputFieldWidget(
@@ -170,125 +159,28 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                right: 25,
-              ),
-              child: RichText(
-                text: TextSpan(
-                  style: const TextStyle(color: Colors.grey, fontSize: 14.0),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Forget Password ?',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        decoration: TextDecoration.underline,
-                      ),
-                      recognizer: TapGestureRecognizer()..onTap = () {},
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
           const SizedBox(
-            height: 20,
+            height: 60,
           ),
           Center(
             child: FormHelper.submitButton(
-              "Login",
+              "Register",
               () {
                 if (validateAndSave()) {
                   setState(() {
                     isApiCallProcess = true;
                   });
+          
+                  
 
-                 User user = User(
-                    email: email,
-                    password: password,
-                  );
-
-                   User.loginUser(user).then(
-                    (response) {
-                      setState(() {
-                        isApiCallProcess = false;
-                      });
-
-                      if (response !=null) {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          '/home',
-                          (route) => false,
-                        );
-                      } else {
-                        FormHelper.showSimpleAlertDialog(
-                          context,
-                          "Course App",
-                          "Invalid Username/Password !!",
-                          "OK",
-                          () {
-                            Navigator.of(context).pop();
-                          },
-                        );
-                      }
-                    },
-                  );
+                    
+                  
                 }
               },
               btnColor: HexColor("283B71"),
               borderColor: Colors.white,
               txtColor: Colors.white,
               borderRadius: 10,
-            ),
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          const Center(
-            child: Text(
-              "OR",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                right: 25,
-              ),
-              child: RichText(
-                text: TextSpan(
-                  style: const TextStyle(color: Colors.white, fontSize: 14.0),
-                  children: <TextSpan>[
-                    const TextSpan(
-                      text: 'Do not have an account? ',
-                    ),
-                    TextSpan(
-                      text: 'Sign up',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.pushNamed(
-                            context,
-                            '/register',
-                          );
-                        },
-                    ),
-                  ],
-                ),
-              ),
             ),
           ),
           const SizedBox(
@@ -306,5 +198,5 @@ class _LoginState extends State<Login> {
       return true;
     }
     return false;
-  } 
+  }
 }

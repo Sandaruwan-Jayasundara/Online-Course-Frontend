@@ -4,6 +4,8 @@ import 'package:frontend/utils/data.dart';
 import 'package:frontend/widgets/custom_image.dart';
 import 'package:frontend/widgets/setting_box.dart';
 import 'package:frontend/widgets/setting_item.dart';
+import 'package:frontend/screens/addcard.dart';
+
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -131,7 +133,12 @@ class _AccountPageState extends State<AccountPage> {
                 title: "Payment",
                 leadingIcon: "assets/icons/wallet.svg",
                 bgIconColor: green,
-                onTap: () {},
+                onTap: () {
+                        Navigator.pushNamed(
+                            context,
+                            '/card',
+                          );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 45),
@@ -141,10 +148,15 @@ class _AccountPageState extends State<AccountPage> {
                 ),
               ),
               SettingItem(
-                title: "Bookmark",
+                title: "Contact us",
                 leadingIcon: "assets/icons/bookmark.svg",
                 bgIconColor: primary,
-                onTap: () {},
+                onTap: () {
+                Navigator.pushNamed(
+                     context,
+                   '/contact',
+                  );
+                },  
               ),
             ]),
           ),

@@ -34,13 +34,27 @@ class User {
     }
   }
 
-  static Future<bool> loginUser(User user) async {
+  static Future<String> loginUser(User user) async {
     Response response = await post(Uri.parse(endpoint + "/login"),
         body: json.encode(user), headers: {"Content-Type": "application/json"});
-    if (response.statusCode == 201) {
-      return jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body)['status'];
     } else {
-      throw Exception('Invalid user');
+      throw Exception('failed to add new user');
     }
   }
+  
+   static Future<List<User>> getAllUsers() async {
+    Response response = await get(Uri.parse(endpoint));
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body);
+      List<User> users =
+          body.map((dynamic course) => User.fromJson(course)).toList();
+      return users;
+    } else {
+      throw Exception('Users are not available');
+    }
+  }
+}
+
 }
