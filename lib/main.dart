@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/addcard.dart';
+import 'package:frontend/screens/add_courses.dart';
+import 'package:frontend/screens/add_user.dart';
+import 'package:frontend/screens/admin_root_app%20.dart';
+import 'package:frontend/screens/chats.dart';
+import 'package:frontend/screens/contactus.dart';
+import 'package:frontend/screens/display_card.dart';
+import 'package:frontend/screens/display_category.dart';
+
+import 'package:frontend/screens/display_course.dart';
+import 'package:frontend/screens/payment.dart';
 
 import 'screens/root_app.dart';
 import 'theme/color.dart';
 import 'screens/login.dart';
 import 'screens/register.dart';
-import 'screens/addcategory.dart';
-import 'screens/addcard.dart';
+import 'screens/add_category.dart';
+
 
 
 void main() {
@@ -24,13 +33,19 @@ class MyApp extends StatelessWidget {
       ),
       routes:{
         '/home' :(context) => const  RootApp(),
-        '/addcategory' :(context) => const  AddCategory(),
         '/register' :(context) => const Register(),
-        '/card' :(context) => const AddCard(),
-     
+        '/card' :(context) => const DisplayCard(),
+        '/contact' :(context) => const ContactUs(),
+        '/chat' :(context) => const  Chats(),
+        '/adduser' :(context) => const  AddUser(),
+        '/addcategory' :(context) => const  AddCategory(),
+        '/addcourse' :(context) => const  Addcourses(),
+        '/category' :(context) => const  DisplayCategory(),
+        '/admin' :(context) => const  AdminRootApp(),
+
        } ,
 
-            home: Login(),
+            home: Payment(),
     );
   }
 }

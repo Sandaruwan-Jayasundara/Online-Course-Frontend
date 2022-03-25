@@ -6,7 +6,7 @@ import 'package:frontend/utils/constant.dart';
 import 'package:frontend/widgets/bottombar_item.dart';
 
 
-import 'package:frontend/screens/addcategory.dart';
+import 'package:frontend/screens/add_category.dart';
 
 
 import 'home.dart';

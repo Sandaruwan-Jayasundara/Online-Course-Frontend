@@ -81,7 +81,7 @@ class _ChatsState extends State<Chats> {
           const Padding(
             padding: EdgeInsets.only(left: 20, bottom: 30, top: 50),
             child: Text(
-              "Register",
+              "Contact",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
@@ -115,56 +115,44 @@ class _ChatsState extends State<Chats> {
               borderRadius: 10,
             ),
           ),
-          
-          TextFormField(
-              minLines: 6, // any number you need (It works as the rows for the textarea)
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-            ),
-          
-          Padding(
+                    Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FormHelper.inputFieldWidget(
               context,
-              "Password",
-              "Password",
+              "message",
+              "message",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return 'Password can\'t be empty.';
+                  return 'Message can\'t be empty.';
                 }
 
                 return null;
               },
               (onSavedVal) => {
-                password = onSavedVal,
+                userName = onSavedVal,
               },
               initialValue: "",
-              obscureText: hidePassword,
+              obscureText: false,
               borderFocusColor: Colors.white,
               prefixIconColor: Colors.white,
               borderColor: Colors.white,
               textColor: Colors.white,
               hintColor: Colors.white.withOpacity(0.7),
               borderRadius: 10,
-              suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    hidePassword = !hidePassword;
-                  });
-                },
-                color: Colors.white.withOpacity(0.7),
-                icon: Icon(
-                  hidePassword ? Icons.visibility_off : Icons.visibility,
-                ),
-              ),
             ),
           ),
+          TextFormField(
+              minLines: 6, // any number you need (It works as the rows for the textarea)
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+            ),
+          
           const SizedBox(
             height: 60,
           ),
           Center(
             child: FormHelper.submitButton(
-              "Register",
+              "Send",
               () {
                 if (validateAndSave()) {
                   setState(() {

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:frontend/screens/displayCard.dart';
 import 'package:http/http.dart';
 
 class CreditCard {
@@ -26,8 +25,8 @@ class CreditCard {
     return {"cardNumber": cardNumber, "cardName": cardName, "cvv": cvv, "date":date};
   }
 
-  static Future<String?> saveCard(CreditCard card) async {
-    Response response = await post(Uri.parse(endpoint + "/add"),
+  static Future<String?> Payment(CreditCard card) async {
+    Response response = await post(Uri.parse(endpoint + "/save"),
         body: json.encode(card), headers: {"Content-Type": "application/json"});
     if (response.statusCode == 201) {
       return jsonDecode(response.body)['status'];
@@ -44,14 +43,6 @@ class CreditCard {
       throw Exception('process failed');
     }
   }
-
-
-
-
-
-
-
-
 
 
 }

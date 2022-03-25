@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/theme/color.dart';
 
 class ContactUs extends StatefulWidget {
   const ContactUs({ Key? key }) : super(key: key);
@@ -11,17 +12,15 @@ class ContactUs extends StatefulWidget {
 class _ContactUsState extends State<ContactUs> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-
-      home: Scaffold(
+   return Scaffold(
         appBar: AppBar(
-          title: Text(
-            "Contact Us",
-            style: TextStyle(color: Color.fromARGB(255, 17, 7, 107)),
-          ),
-          backgroundColor: Colors.white, //shade
-          elevation: 0,
-        ),
+        title: const Center(child: Text("Contact"  , style: TextStyle(
+                color: textColor, fontSize: 24, fontWeight: FontWeight.w600),)),
+        actions: [],
+        backgroundColor: Color.fromARGB(255, 211, 209, 209),
+      ),
+
+
         // backgroundColor: Colors.blueGrey,
         body: Column(
           children: <Widget>[
@@ -193,7 +192,7 @@ class _ContactUsState extends State<ContactUs> {
             
           ],
         ),
-      ),
+      
     );
   }
 }

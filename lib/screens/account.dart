@@ -4,7 +4,7 @@ import 'package:frontend/utils/data.dart';
 import 'package:frontend/widgets/custom_image.dart';
 import 'package:frontend/widgets/setting_box.dart';
 import 'package:frontend/widgets/setting_item.dart';
-import 'package:frontend/screens/addcard.dart';
+
 
 
 class AccountPage extends StatefulWidget {
@@ -130,7 +130,7 @@ class _AccountPageState extends State<AccountPage> {
                 ),
               ),
               SettingItem(
-                title: "Payment",
+                title: "Payment Info",
                 leadingIcon: "assets/icons/wallet.svg",
                 bgIconColor: green,
                 onTap: () {
