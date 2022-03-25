@@ -1,7 +1,5 @@
 class Config {
-  static const String appName = "Online";
-  static const String apiURL = 'http://10.02.2:8070'; //PROD_URL
-  static const loginAPI = "/users/login";
-  static const registerAPI = "/users/register";
-  static const userProfileAPI = "/users/user-Profile";
+  static const String appName = "courses";
+  static const String apiURL = '10.0.2.2:8070'; //PROD_URL
+  static const courseAPI = "api/course";
 }

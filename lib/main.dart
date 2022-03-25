@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/courseList.dart';
 import 'screens/root_app.dart';
 import 'theme/color.dart';
 import 'screens/login.dart';
 import 'screens/register.dart';
+import 'screens/courses.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,12 +19,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: primary,
       ),
-      // routes:{
+       routes:{
       //   '/' :(context) => const Login(),
       //   '/register' :(context) => const Register(),
-      // } ,
-
-      home: RootApp(),
+     
+        '/': (context) => const CourseList(),
+        '/add-product': (context) => const Courses(),
+        '/edit-product': (context) => const Courses(),
+           } ,
+      //home: RootApp(),
     );
   }
 
