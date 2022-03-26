@@ -16,8 +16,6 @@ import 'screens/login.dart';
 import 'screens/register.dart';
 import 'screens/add_category.dart';
 
-
-
 void main() {
   runApp(MyApp());
 }
@@ -31,21 +29,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: primary,
       ),
-      routes:{
-        '/home' :(context) => const  RootApp(),
-        '/register' :(context) => const Register(),
-        '/card' :(context) => const DisplayCard(),
-        '/contact' :(context) => const ContactUs(),
-        '/chat' :(context) => const  Chats(),
-        '/adduser' :(context) => const  AddUser(),
-        '/addcategory' :(context) => const  AddCategory(),
-        '/addcourse' :(context) => const  Addcourses(),
-        '/category' :(context) => const  DisplayCategory(),
-        '/admin' :(context) => const  AdminRootApp(),
-
-       } ,
-
-            home: Payment(),
+      routes: {
+        '/home': (context) => const RootApp(),
+        '/register': (context) => const Register(),
+        '/card': (context) => const DisplayCard(),
+        '/contact': (context) => const ContactUs(),
+        '/chat': (context) => const Chats(),
+        '/adduser': (context) => const AddUser(),
+        '/addcategory': (context) => const AddCategory(),
+        '/addcourse': (context) => const Addcourses(),
+        '/category': (context) => const DisplayCategory(),
+        '/admin': (context) => const AdminRootApp(),
+      },
+      home: CourseDisplay(),
     );
   }
 }

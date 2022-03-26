@@ -5,35 +5,32 @@ import 'package:frontend/services/course.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
-
+import 'package:image_picker/image_picker.dart';
 
 class Addcourses extends StatefulWidget {
   static String routeName = '/addcourse';
-  const Addcourses({ Key? key }) : super(key: key);
+  const Addcourses({Key? key}) : super(key: key);
 
   @override
   State<Addcourses> createState() => AddcoursesState();
 }
 
 class AddcoursesState extends State<Addcourses> {
-
   static final GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   bool isApiCallProcess = false;
   List<Object> images = [];
   bool isEditMode = false;
   bool isImageSelected = false;
+  File? courseImage;
 
-  late final String? courseId;
-  late final String? courseName;
-  late final String? courseImage;
-  late final int? courseDuration;
-  late final double? coursePrice;
-
-
+  String? courseId;
+  String? courseName;
+  String? courseDuration;
+  String? coursePrice;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea( 
+    return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text('ADD NEW COURSE'),
@@ -64,10 +61,9 @@ class AddcoursesState extends State<Addcourses> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-       const SizedBox(
+          const SizedBox(
             height: 60,
           ),
-
           Padding(
             padding: const EdgeInsets.only(
               bottom: 10,
@@ -114,9 +110,8 @@ class AddcoursesState extends State<Addcourses> {
                 return null;
               },
               (onSavedVal) => {
-               coursePrice = double.parse(onSavedVal),
+                coursePrice = onSavedVal,
               },
-             
               obscureText: false,
               borderFocusColor: Color.fromARGB(255, 1, 37, 99),
               prefixIconColor: Color.fromARGB(255, 1, 37, 99),
@@ -139,15 +134,14 @@ class AddcoursesState extends State<Addcourses> {
               "courseDuration",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return 'Course Price can\'t be empty.';
+                  return 'Course Duration can\'t be empty.';
                 }
 
                 return null;
               },
               (onSavedVal) => {
-               courseDuration = int.parse(onSavedVal),
+                courseDuration = onSavedVal,
               },
-             
               obscureText: false,
               borderFocusColor: Color.fromARGB(255, 1, 37, 99),
               prefixIconColor: Color.fromARGB(255, 1, 37, 99),
@@ -156,12 +150,10 @@ class AddcoursesState extends State<Addcourses> {
               hintColor: Color.fromARGB(255, 1, 37, 99).withOpacity(0.7),
               borderRadius: 10,
               showPrefixIcon: false,
-           
             ),
           ),
-        
-        
-        const SizedBox(
+          imageprofile(),
+          const SizedBox(
             height: 60,
           ),
           Center(
@@ -172,14 +164,15 @@ class AddcoursesState extends State<Addcourses> {
                   setState(() {
                     isApiCallProcess = true;
                   });
-          
-                  Course course = Course(
-                    courseName: courseName,
-                    courseDuration:courseDuration,
-                    coursePrice:coursePrice
-                  );
 
-                  Course.addNewCourse(course).then(
+                  Course course = Course(
+                      courseId: "",
+                      courseName: courseName!,
+                      courseDuration: courseDuration!,
+                      courseImage: "",
+                      coursePrice: coursePrice!);
+
+                  Course.addNewCourse(course, courseImage!).then(
                     (response) {
                       setState(() {
                         isApiCallProcess = false;
@@ -237,7 +230,78 @@ class AddcoursesState extends State<Addcourses> {
     return false;
   }
 
+  Widget imageprofile() {
+    return Center(
+      child: Stack(
+        children: [
+          courseImage != null
+              ? Image.file(courseImage!, height: 160, width: 160)
+              : FlutterLogo(
+                  size: 160,
+                ),
+          Positioned(
+            bottom: 20.0,
+            right: 20.0,
+            child: InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context, builder: ((builder) => bottomSheet()));
+                },
+                child: Icon(Icons.camera_alt, color: Colors.black, size: 28.0)),
+          )
+        ],
+      ),
+    );
+  }
 
+  Future takePhoto(ImageSource source) async {
+    final image = await ImagePicker().pickImage(source: source);
+    if (image == null) return;
+    final imageTemporary = File(image.path);
+    setState(() {
+      this.courseImage = imageTemporary;
+    });
+  }
+
+  Widget bottomSheet() {
+    return Container(
+        height: 100.0,
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          children: [
+            Text(
+              "choose a photo",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(
+              width: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                    onPressed: () {
+                      takePhoto(ImageSource.camera);
+                    },
+                    icon: Icon(Icons.camera),
+                    label: Text("camera")),
+                SizedBox(
+                  width: 30,
+                ),
+                ElevatedButton.icon(
+                    onPressed: () {
+                      takePhoto(ImageSource.gallery);
+                    },
+                    icon: Icon(Icons.image),
+                    label: Text("gallery")),
+              ],
+            ),
+          ],
+        ));
+  }
 
   isValidURL(url) {
     return Uri.tryParse(url)?.hasAbsolutePath ?? false;

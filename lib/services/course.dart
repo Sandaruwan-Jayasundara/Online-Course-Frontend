@@ -1,25 +1,35 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart' as dio;
 import 'package:http/http.dart';
+import 'package:http_parser/http_parser.dart';
 
 class Course {
   static const String endpoint = "http://10.0.2.2:8070/course";
+  final String courseId;
+  final String courseName;
+  final String courseImage;
+  final String courseDuration;
+  final String coursePrice;
 
-  late final String? courseId;
-  late final String? courseName;
-    late final String? courseImage;
-  late final int? courseDuration;
-  late final double? coursePrice;
-
-  Course({this.courseId, this.courseName,this.courseImage, this.courseDuration, this.coursePrice});
+  Course(
+      {required this.courseId,
+      required this.courseName,
+      required this.courseImage,
+      required this.courseDuration,
+      required this.coursePrice});
 
   factory Course.fromJson(Map<String, dynamic> json) {
-    return Course(
-        courseId: json['coureId'],
-        courseName: json['courseName'],
-        courseDuration: json['courseDuration'],
-        courseImage: json['courseImage'],
-        coursePrice: json['coursePrice']);
+    Course course = Course(
+      courseId: json['_id'],
+      courseName: json['courseName'],
+      courseImage: json['courseImage'],
+      courseDuration: json['courseDuration'].toString(),
+      coursePrice: json['coursePrice'].toString(),
+    );
+    print(course.courseId);
+    return course;
   }
 
   Map<String, dynamic> toJson() {
@@ -31,38 +41,48 @@ class Course {
     };
   }
 
-  static Future<String?> addNewCourse(Course course) async {
-    Response response = await post(Uri.parse(endpoint + "/add"),
-        body: json.encode(course), headers: {"Content-Type": "application/json"});
-    if (response.statusCode == 201) {
-      return jsonDecode(response.body)['status'];
-    } else {
-      throw Exception('failed to add new user');
+  static Future<dynamic?> addNewCourse(Course course, File image) async {
+    try {
+      dio.Dio _dio = dio.Dio();
+      String fileName = image.path.split("/").last;
+      dio.FormData formData = dio.FormData.fromMap({
+        "file": await dio.MultipartFile.fromFile(image.path,
+            filename: fileName, contentType: new MediaType('image', 'png')),
+        "type": "image/png",
+        "courseName": course.courseName,
+        "coursePrice": course.coursePrice,
+        "courseDuration": course.courseDuration
+      });
+      dio.Response response = await _dio.post('$endpoint/add',
+          data: formData,
+          options: dio.Options(headers: {
+            "accept": "*/*",
+            "Authorization": "Bearer accresstoken",
+            "Content-Type": "multipart/form-data"
+          }));
+      return response;
+    } catch (e) {
+      print(e);
     }
   }
-
-
 
   static Future<List<Course>> getAllCourses() async {
     Response response = await get(Uri.parse(endpoint));
     if (response.statusCode == 200) {
-      List<dynamic> body = jsonDecode(response.body)['data'];
+      List<dynamic> body = jsonDecode(response.body);
       List<Course> courses =
           body.map((dynamic course) => Course.fromJson(course)).toList();
+      print(courses);
       return courses;
     } else {
       throw Exception('Courses are not available');
     }
   }
 
-
-
-
-
-  static Future<Course> getCourseById(String id)async{
-        Response response = await get(Uri.parse(endpoint+'/${id}'));
+  static Future<Course> getCourseById(String id) async {
+    Response response = await get(Uri.parse(endpoint + '/${id}'));
     if (response.statusCode == 200) {
-      Course course= jsonDecode(response.body);
+      Course course = jsonDecode(response.body);
       return course;
     } else {
       throw Exception('course is not available');
