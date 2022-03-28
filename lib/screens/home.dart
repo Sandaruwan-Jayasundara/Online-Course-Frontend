@@ -85,13 +85,6 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           getCategories(),
-          SizedBox(
-            height: 15,
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          
         ]),
       ),
     ),

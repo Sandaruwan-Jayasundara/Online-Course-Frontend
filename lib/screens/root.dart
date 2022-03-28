@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/payment.dart';
 
 import 'add_courses.dart';
+import 'display_course.dart';
 import 'home_screen.dart';
 
 class Root extends StatefulWidget {
@@ -12,7 +14,12 @@ class Root extends StatefulWidget {
 
 class _RootState extends State<Root> {
   int currentIndex = 0;
-  final screens = [const HomeScreen(), const Addcourses()];
+  final screens = [
+    const HomeScreen(),
+    const Addcourses(),
+    const CourseDisplay(),
+    const Payment()
+  ];
 
   @override
   Widget build(BuildContext context) {
