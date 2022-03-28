@@ -1,22 +1,23 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/services/course.dart';
 import 'package:select_form_field/select_form_field.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 import 'package:image_picker/image_picker.dart';
 
-class Addcourses extends StatefulWidget {
-  static String routeName = '/addcourse';
-  const Addcourses({Key? key}) : super(key: key);
+import '../services/course.dart';
+
+class UpdateCourse extends StatefulWidget {
+  final Course course;
+  const UpdateCourse({Key? key, required this.course}) : super(key: key);
 
   @override
-  State<Addcourses> createState() => AddcoursesState();
+  State<UpdateCourse> createState() => _UpdateCourseState();
 }
 
-class AddcoursesState extends State<Addcourses> {
+class _UpdateCourseState extends State<UpdateCourse> {
   static final GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   bool isApiCallProcess = false;
   List<Object> images = [];
@@ -30,6 +31,7 @@ class AddcoursesState extends State<Addcourses> {
   String? coursePrice;
   String? courseCategory;
   String? courseDescription;
+  String? imagePath;
 
   final List<Map<String, dynamic>> _categories = [
     {'value': 'Information Technology', 'label': 'InformationTechnology'},
@@ -87,9 +89,9 @@ class AddcoursesState extends State<Addcourses> {
             child: FormHelper.inputFieldWidget(
               context,
               "courseName",
-              "course Name",
+              widget.course.courseName,
               (onValidateVal) {
-                if (onValidateVal.isEmpty) {
+                if (widget.course.courseName.isEmpty && onValidateVal.isEmpty) {
                   return 'Course name can\'t be empty.';
                 }
 
@@ -116,9 +118,10 @@ class AddcoursesState extends State<Addcourses> {
             child: FormHelper.inputFieldWidget(
               context,
               "coursePrice",
-              "course Price",
+              widget.course.coursePrice,
               (onValidateVal) {
-                if (onValidateVal.isEmpty) {
+                if (widget.course.coursePrice.isEmpty &&
+                    onValidateVal.isEmpty) {
                   return 'Course Price can\'t be empty.';
                 }
 
@@ -146,9 +149,10 @@ class AddcoursesState extends State<Addcourses> {
             child: FormHelper.inputFieldWidget(
               context,
               "courseDuration",
-              "course Duration",
+              widget.course.courseDuration,
               (onValidateVal) {
-                if (onValidateVal.isEmpty) {
+                if (widget.course.courseDuration.isEmpty &&
+                    onValidateVal.isEmpty) {
                   return 'Course Duration can\'t be empty.';
                 }
 
@@ -173,7 +177,7 @@ class AddcoursesState extends State<Addcourses> {
               top: 10,
             ),
             child: SelectFormField(
-              initialValue: 'InformationTechnology',
+              initialValue: widget.course.courseCategory,
               icon: Icon(Icons.category_rounded),
               labelText: 'Course Category',
               items: _categories,
@@ -191,9 +195,10 @@ class AddcoursesState extends State<Addcourses> {
             child: FormHelper.inputFieldWidget(
               context,
               "courseDescription",
-              "course Descriptionn",
+              widget.course.courseDescription,
               (onValidateVal) {
-                if (onValidateVal.isEmpty) {
+                if (widget.course.courseDescription.isEmpty &&
+                    onValidateVal.isEmpty) {
                   return 'Course Description cant be null!.';
                 }
 
@@ -230,17 +235,30 @@ class AddcoursesState extends State<Addcourses> {
                   });
 
                   Course course = Course(
-                      courseId: "",
-                      courseName: courseName!,
-                      courseDuration: courseDuration!,
-                      courseImage: "",
-                      coursePrice: coursePrice!,
-                      courseCategory: courseCategory!,
-                      courseDescription: courseDescription!);
+                      courseId: widget.course.courseId,
+                      courseName: courseName == ''
+                          ? widget.course.courseName
+                          : courseName!,
+                      courseDuration: courseDuration == ''
+                          ? widget.course.courseDuration
+                          : courseDuration!,
+                      courseImage: widget.course.courseImage,
+                      coursePrice: coursePrice == ''
+                          ? widget.course.coursePrice
+                          : coursePrice!,
+                      courseCategory: courseCategory == ''
+                          ? widget.course.courseCategory
+                          : courseCategory!,
+                      courseDescription: courseDescription == ''
+                          ? widget.course.courseDescription
+                          : courseDescription!);
 
-                  Course.addNewCourse(course, courseImage!).then(
+                  (courseImage == null
+                          ? Course.updateCourseWithoutImage(course)
+                          : Course.updateCourse(course, courseImage!))
+                      .then(
                     (response) {
-                      setDefault();
+                      print("sdsdsds");
                       setState(() {
                         isApiCallProcess = false;
                       });
@@ -249,7 +267,7 @@ class AddcoursesState extends State<Addcourses> {
                         FormHelper.showSimpleAlertDialog(
                           context,
                           "Course",
-                          "Successfully Added",
+                          "Successfully Updated",
                           "OK",
                           () {
                             Navigator.pushNamedAndRemoveUntil(
@@ -290,7 +308,7 @@ class AddcoursesState extends State<Addcourses> {
 
   bool validateAndSave() {
     final form = globalFormKey.currentState;
-    if (form!.validate() && courseImage != null) {
+    if (form!.validate()) {
       form.save();
       return true;
     }
@@ -310,7 +328,7 @@ class AddcoursesState extends State<Addcourses> {
           courseImage != null
               ? Image.file(courseImage!, height: 160, width: 160)
               : Image.asset(
-                  "assets/images/default.png",
+                  widget.course.courseImage,
                   height: 160,
                   width: 160,
                 ),

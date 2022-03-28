@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/add_courses.dart';
 import 'package:frontend/services/course.dart';
+import 'package:provider/provider.dart';
 
 import '../components/course_tile.dart';
+import '../providers/course_provider.dart';
 
-class CourseDisplay extends StatelessWidget {
+class CourseDisplay extends StatefulWidget {
   const CourseDisplay({Key? key}) : super(key: key);
 
+  @override
+  State<CourseDisplay> createState() => _CourseDisplayState();
+}
+
+class _CourseDisplayState extends State<CourseDisplay> {
+  Future<List<Course>> courses = Course.getAllCourses();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
