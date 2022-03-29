@@ -34,7 +34,6 @@ class Course {
         coursePrice: json['coursePrice'].toString(),
         courseCategory: json['courseCategory'],
         courseDescription: json['courseDescription']);
-    print(course.courseId);
     return course;
   }
 
@@ -50,7 +49,6 @@ class Course {
   }
 
   static Future<dynamic?> addNewCourse(Course course, File image) async {
-    print(course.courseDescription);
     try {
       dio.Dio _dio = dio.Dio();
       String fileName = image.path.split("/").last;
@@ -78,7 +76,6 @@ class Course {
   }
 
   static Future<dynamic?> updateCourse(Course course, File image) async {
-    print("dfdfdfdf" + course.courseName);
     try {
       dio.Dio _dio = dio.Dio();
       String fileName = image.path.split("/").last;
@@ -109,7 +106,6 @@ class Course {
   }
 
   static Future<dynamic?> updateCourseWithoutImage(Course course) async {
-    print("dfdfdfdf" + course.courseName);
     try {
       dio.Dio _dio = dio.Dio();
       dio.FormData formData = dio.FormData.fromMap({
@@ -143,7 +139,6 @@ class Course {
       List<dynamic> body = jsonDecode(response.body);
       List<Course> courses =
           body.map((dynamic course) => Course.fromJson(course)).toList();
-      print(courses);
       return courses;
     } else {
       throw Exception('Courses are not available');

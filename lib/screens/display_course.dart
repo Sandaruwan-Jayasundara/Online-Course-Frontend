@@ -14,7 +14,19 @@ class CourseDisplay extends StatefulWidget {
 }
 
 class _CourseDisplayState extends State<CourseDisplay> {
-  Future<List<Course>> courses = Course.getAllCourses();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    Provider.of<CourseProvider>(context).getAllCourses();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,21 +41,18 @@ class _CourseDisplayState extends State<CourseDisplay> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder(
-            future: Course.getAllCourses(),
-            builder: (context, AsyncSnapshot<List<Course>> snapshot) {
-              List<Course>? courses = snapshot.data;
-              if (snapshot.hasData) {
-                return GridView.count(
-                  crossAxisCount: 2,
-                  children: courses!
-                      .map((Course course) => CourseTile(course: course))
-                      .toList(),
-                );
-              }
-              return const Center(child: CircularProgressIndicator());
-            }),
+        padding: const EdgeInsets.all(8),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
+          itemCount: Provider.of<CourseProvider>(context).courses.length,
+          itemBuilder: (context, index) {
+            return CourseTile(
+                course: Provider.of<CourseProvider>(context)
+                    .courses
+                    .elementAt(index));
+          },
+        ),
       ),
     );
   }

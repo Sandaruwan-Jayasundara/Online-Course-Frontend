@@ -6,12 +6,13 @@ class CourseProvider extends ChangeNotifier {
   List<Course> _courses = [];
   bool loading = false;
 
-  Future<List<Course>> getAllCourses() async {
+  List<Course> get courses => _courses;
+
+  Future<void> getAllCourses() async {
     loading = true;
     _courses = await Course.getAllCourses();
     loading = false;
     notifyListeners();
-    return _courses;
   }
 
   Future<void> deleteCourse(String id) async {
