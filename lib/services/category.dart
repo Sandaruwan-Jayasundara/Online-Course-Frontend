@@ -9,10 +9,10 @@ class Category {
   late final String? CategoryName;
   late final String? CategoryNumber;
 
-
-  Category({this.categoryId, this.CategoryName,this.CategoryNumber});
+  Category({this.categoryId, this.CategoryName, this.CategoryNumber});
 
   factory Category.fromJson(Map<String, dynamic> json) {
+    print("aaaaaaaaa");
     return Category(
         categoryId: json['categoryId'],
         CategoryName: json['CategoryName'],
@@ -28,7 +28,8 @@ class Category {
 
   static Future<String?> addNewCategory(Category course) async {
     Response response = await post(Uri.parse(endpoint + "/add"),
-        body: json.encode(course), headers: {"Content-Type": "application/json"});
+        body: json.encode(course),
+        headers: {"Content-Type": "application/json"});
     if (response.statusCode == 201) {
       return jsonDecode(response.body)['status'];
     } else {
@@ -36,26 +37,22 @@ class Category {
     }
   }
 
-
-
-
-  static Future<List<Category>> getAllCourses() async {
+  static Future<List<Category>> getAllCategories() async {
     Response response = await get(Uri.parse(endpoint));
     if (response.statusCode == 200) {
-      List<dynamic> body = jsonDecode(response.body)['data'];
-      List<Category> courses =
-          body.map((dynamic course) => Category.fromJson(course)).toList();
-      return courses;
+      List<dynamic> body = jsonDecode(response.body);
+      List<Category> categories =
+          body.map((dynamic category) => Category.fromJson(category)).toList();
+      return categories;
     } else {
-      throw Exception('Courses are not available');
+      throw Exception('categories are not available');
     }
   }
 
-
-  static Future<Category> getCourseById(String id)async{
-        Response response = await get(Uri.parse(endpoint+'/${id}'));
+  static Future<Category> getCourseById(String id) async {
+    Response response = await get(Uri.parse(endpoint + '/${id}'));
     if (response.statusCode == 200) {
-      Category course= jsonDecode(response.body);
+      Category course = jsonDecode(response.body);
       return course;
     } else {
       throw Exception('course is not available');
