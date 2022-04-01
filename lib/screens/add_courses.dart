@@ -32,7 +32,7 @@ class AddcoursesState extends State<Addcourses> {
   String? courseDescription;
 
   final List<Map<String, dynamic>> _categories = [
-    {'value': 'Information Technology', 'label': 'InformationTechnology'},
+    {'value': 'Information Technology', 'label': 'Information Technology'},
     {
       'value': 'Languages',
       'label': 'Languages',
@@ -240,7 +240,6 @@ class AddcoursesState extends State<Addcourses> {
 
                   Course.addNewCourse(course, courseImage!).then(
                     (response) {
-                      setDefault();
                       setState(() {
                         isApiCallProcess = false;
                       });

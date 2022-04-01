@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/cart_provider.dart';
 import 'package:frontend/providers/course_provider.dart';
 import 'package:frontend/screens/add_courses.dart';
 import 'package:frontend/screens/add_user.dart';
@@ -27,8 +28,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => CourseProvider(),
+    return MultiProvider(
+       providers: [
+         ChangeNotifierProvider(create: (context) => CourseProvider(),),
+         ChangeNotifierProvider(create: (context) => CartProvider(),),
+       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'CTSE',

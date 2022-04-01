@@ -227,7 +227,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
           ),
           Center(
             child: FormHelper.submitButton(
-              "ADD COURSE",
+              "UPDATE COURSE",
               () {
                 if (validateAndSave()) {
                   setState(() {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/screens/payment.dart';
 
 import 'add_courses.dart';
+import 'display_cart.dart';
 import 'display_course.dart';
 import 'home_screen.dart';
 
@@ -18,7 +19,7 @@ class _RootState extends State<Root> {
     const HomeScreen(),
     const Addcourses(),
     const CourseDisplay(),
-    const Payment()
+    const DisplayCart()
   ];
 
   @override
