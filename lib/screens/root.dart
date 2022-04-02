@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/payment.dart';
+import 'package:provider/provider.dart';
+import 'package:badges/badges.dart';
 
+import '../providers/cart_provider.dart';
+import '../services/cart.dart';
 import 'add_courses.dart';
 import 'display_cart.dart';
 import 'display_course.dart';
@@ -23,7 +27,14 @@ class _RootState extends State<Root> {
   ];
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<CartProvider>(context).getAllCartItems();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<Cart> items = Provider.of<CartProvider>(context).cartItem;
     return Scaffold(
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -37,7 +48,7 @@ class _RootState extends State<Root> {
           onTap: (index) => setState(() {
                 currentIndex = index;
               }),
-          items: const [
+          items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: "Home",
@@ -51,7 +62,10 @@ class _RootState extends State<Root> {
                 label: "Profile",
                 backgroundColor: Colors.blue),
             BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
+                icon: Badge(
+                  child: Icon(Icons.shopping_cart),
+                  badgeContent: Text(items.length.toString()),
+                ),
                 label: "Cart",
                 backgroundColor: Colors.blue)
           ]),
