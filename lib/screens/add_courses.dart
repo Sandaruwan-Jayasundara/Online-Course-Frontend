@@ -8,6 +8,8 @@ import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../services/category.dart';
+
 class Addcourses extends StatefulWidget {
   static String routeName = '/addcourse';
   const Addcourses({Key? key}) : super(key: key);
@@ -31,7 +33,7 @@ class AddcoursesState extends State<Addcourses> {
   String? courseCategory;
   String? courseDescription;
 
-  final List<Map<String, dynamic>> _categories = [
+  List<Map<String, dynamic>> _categories = [
     {'value': 'Information Technology', 'label': 'Information Technology'},
     {
       'value': 'Languages',
@@ -42,6 +44,23 @@ class AddcoursesState extends State<Addcourses> {
       'label': 'Mathematics',
     },
   ];
+List<Map<String, dynamic>> _data = [];
+
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    List<Category> list = await Category.getAllCategories();
+    Future.wait(list.map((item) async => {
+          _data.add({
+            'value': item.CategoryName,
+            'label': item.CategoryName,
+          })
+        }));
+
+    setState(() {
+      _categories = _data;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

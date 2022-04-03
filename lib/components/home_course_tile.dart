@@ -5,15 +5,14 @@ import '../services/course.dart';
 
 class HomeCourseTile extends StatelessWidget {
   final Course course;
-  const HomeCourseTile({Key? key,required this.course}) : super(key: key);
+  const HomeCourseTile({Key? key, required this.course}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                             ViewCourse(course: course))); 
+            builder: (context) => ViewCourse(course: course)));
       },
       child: Padding(
         padding: const EdgeInsets.all(3.0),
@@ -21,16 +20,16 @@ class HomeCourseTile extends StatelessWidget {
           elevation: 3,
           child: Column(
             children: [
-              Expanded(child: Image.asset(course.courseImage)),
+              Expanded(child: Image(image: AssetImage(course.courseImage))),
               Text(
-              course.courseName,
+                course.courseName,
                 style: Theme.of(context).textTheme.headline6,
+                textAlign: TextAlign.center,
               ),
               Text(
                 '${course.coursePrice}',
                 style: Theme.of(context).textTheme.caption,
               ),
-              
             ],
           ),
         ),

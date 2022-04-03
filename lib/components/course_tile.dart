@@ -22,11 +22,13 @@ class _CourseTileState extends State<CourseTile> {
       child: Card(
         elevation: 3,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(child: Image.asset(widget.course.courseImage)),
             Text(
               widget.course.courseName,
               style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.center,
             ),
             Text(
               '${widget.course.coursePrice}',

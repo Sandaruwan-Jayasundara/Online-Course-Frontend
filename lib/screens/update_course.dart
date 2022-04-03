@@ -7,6 +7,7 @@ import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../services/category.dart';
 import '../services/course.dart';
 
 class UpdateCourse extends StatefulWidget {
@@ -33,7 +34,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
   String? courseDescription;
   String? imagePath;
 
-  final List<Map<String, dynamic>> _categories = [
+  List<Map<String, dynamic>> _categories = [
     {'value': 'Information Technology', 'label': 'InformationTechnology'},
     {
       'value': 'Languages',
@@ -45,12 +46,30 @@ class _UpdateCourseState extends State<UpdateCourse> {
     },
   ];
 
+  List<Map<String, dynamic>> _data = [];
+
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    List<Category> list = await Category.getAllCategories();
+    Future.wait(list.map((item) async => {
+          _data.add({
+            'value': item.CategoryName,
+            'label': item.CategoryName,
+          })
+        }));
+
+    setState(() {
+      _categories = _data;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('ADD NEW COURSE'),
+          title: const Text('UPDATE COURSE'),
           elevation: 0,
         ),
         backgroundColor: Colors.grey[200],
