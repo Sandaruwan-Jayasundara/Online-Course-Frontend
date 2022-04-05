@@ -1,71 +1,129 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/utils/data.dart';
-import 'package:frontend/widgets/chat_item.dart';
-import 'package:frontend/widgets/custom_textfield.dart';
+import 'package:frontend/screens/ViewContact.dart';
+import 'package:frontend/screens/add_category.dart';
+import 'package:frontend/screens/add_user.dart';
+import 'package:frontend/screens/side_bar.dart';
+import 'package:frontend/screens/update_user.dart';
+import 'package:frontend/services/contact.dart';
+import 'package:frontend/services/user.dart';
+import 'package:frontend/theme/color.dart';
+import 'package:snippet_coder_utils/hex_color.dart';
+import '../services/category.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({ Key? key }) : super(key: key);
+class ChatPage extends StatelessWidget {
+  const ChatPage({Key? key}) : super(key: key);
 
-  @override
-  _ChatPageState createState() => _ChatPageState();
-}
-
-class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
-    return buildBody();
-  }
-
-  buildBody(){
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(left: 15, right: 15),
-      child: Column(
-        children: [
-          getHeader(),
-          getChats(),
-        ]
-      ),
-    );
-  }
-
-  getHeader(){
-    return
-      Container(
-        padding: EdgeInsets.fromLTRB(0, 60, 0, 5),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
+    return Scaffold(
+      appBar: AppBar(
+     backgroundColor: HexColor("283B71"),
+            title:Expanded(
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    child: Text("Chat", 
-                      style: TextStyle(fontSize: 28, color: Colors.black87, fontWeight: FontWeight.w600)
+                    child: Text("Chats", 
+                      style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600)
                     ,)
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: 15),
-            CustomTextBox(hint: "Search", prefix: Icon(Icons.search, color: Colors.grey), ),
-          ],
-        )
-      );
+      ),
+   drawer: SideBar(),
+      body:ListTileTheme(
+
+          iconColor: Colors.red,
+          textColor: Colors.black54,
+         
+          style: ListTileStyle.list,
+               child: FutureBuilder(
+                  future: Contact.getAllMessages(),
+                  builder: (context, AsyncSnapshot<List<Contact>> snapshot) {
+                    List<Contact>? contacts = snapshot.data;
+            if (snapshot.hasData) {
+              return GridView.count(
+                   crossAxisCount: 1,
+
+
+                
+                children: contacts!
+                    .map((Contact contact) => Card(
+                          elevation: 6,
+                          margin: EdgeInsets.all(10),
+                          
+                             child: ListTile(
+                              title: Text(contact.email!, style: TextStyle(fontSize: 20),),
+                               subtitle:Text(contact.date!, style: TextStyle(fontSize: 20),),
+
+  trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(onPressed: () {
+                      Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => ViewContact(contact: contact)),
+                          );
+                                            
+                    }, icon: Icon(Icons.edit)),
+                     
+                       IconButton(onPressed: () {
+
+                      _delete(context ,contact);
+                    }, icon: Icon(Icons.delete)),
+ 
+                  ],
+                ),
+                 
+                          ),
+                        ))
+                    .toList(),
+              );
+            }
+            return const Center(child: CircularProgressIndicator());
+          }),
+             )
+     );
+
+
+
+
+
+
+
+
+
+     
   }
 
-  getChats(){
-    return
-      ListView(
-        padding: EdgeInsets.only(top: 10),
-        shrinkWrap: true,
-        children: List.generate(chats.length, 
-        (index) => ChatItem(chats[index],
-            onTap: (){
-              
-            },
-          )
-        )
-    );
+  void _delete(BuildContext context, Contact contact) {
+    showDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            title: const Text('Please Confirm'),
+            content: const Text('Are you sure to remove the course ?'),
+            actions: [
+              // The "Yes" button
+              TextButton(
+                  onPressed: () {
+                    // Remove the course
+
+                    Contact.deleteContact(contact.contactId.toString());
+                    // Close the dialog
+                      Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/chatpage',
+                          (route) => false,
+                        );
+       
+                  },
+                  child: const Text('Yes')),
+              TextButton(
+                  onPressed: () {
+                    // Close the dialog
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('No'))
+            ],
+          );
+        });
   }
 }
+

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/services/contact.dart';
+import 'package:frontend/theme/color.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
@@ -12,11 +14,10 @@ class Chats extends StatefulWidget {
 
 class _ChatsState extends State<Chats> {
   bool isApiCallProcess = false;
-  bool hidePassword = true;
   static final GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  String? userName;
-  String? password;
   String? email;
+  String? message;
+ 
 
   @override
   void initState() {
@@ -27,8 +28,20 @@ class _ChatsState extends State<Chats> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: HexColor("#283B71"),
+             appBar: AppBar(
+             title:Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Text("Contact", 
+                      style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600)
+                    ,)
+                  ),
+                ),
+        
+      ),
+    
         body: ProgressHUD(
+          
           child: Form(
             key: globalFormKey,
             child: _chatsUI(context),
@@ -40,7 +53,20 @@ class _ChatsState extends State<Chats> {
       ),
     );
   }
-
+  getHeader() {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Account",
+            style: TextStyle(
+                color: textColor, fontSize: 20, fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
+    );
+  }
   Widget _chatsUI(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -51,41 +77,22 @@ class _ChatsState extends State<Chats> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height / 5.2,
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.white,
-                  Colors.white,
-                ],
-              ),
+             
               borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(100),
                 bottomLeft: Radius.circular(100),
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    "assets/Logo/_logo.png",
-                    fit: BoxFit.contain,
-                    width: 250,
-                  ),
-                ),
-              ],
-            ),
+           
           ),
           const Padding(
-            padding: EdgeInsets.only(left: 20, bottom: 30, top: 50),
+            padding: EdgeInsets.only(left: 20, bottom: 30),
             child: Text(
               "Contact",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 25,
-                color: Colors.white,
+                fontSize: 20,
+                color: Colors.blue
               ),
             ),
           ),
@@ -93,31 +100,37 @@ class _ChatsState extends State<Chats> {
             padding: const EdgeInsets.only(bottom: 10),
             child: FormHelper.inputFieldWidget(
               context,
-              "Username",
-              "Username",
+              "email",
+              "Email",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return 'Username can\'t be empty.';
+                  return 'Email can\'t be empty.';
                 }
 
                 return null;
               },
               (onSavedVal) => {
-                userName = onSavedVal,
+                email = onSavedVal,
               },
               initialValue: "",
               obscureText: false,
-              borderFocusColor: Colors.white,
-              prefixIconColor: Colors.white,
-              borderColor: Colors.white,
-              textColor: Colors.white,
-              hintColor: Colors.white.withOpacity(0.7),
+              borderFocusColor: Colors.blue,
+              prefixIconColor: Colors.blue,
+              borderColor: Colors.blue,
+              textColor: Colors.blue,
+              hintColor: Colors.blue.withOpacity(0.7),
               borderRadius: 10,
             ),
           ),
-                    Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: FormHelper.inputFieldWidget(
+
+
+
+          const SizedBox(
+            height: 20,
+          ),
+
+
+          FormHelper.inputFieldWidget(
               context,
               "message",
               "message",
@@ -129,26 +142,24 @@ class _ChatsState extends State<Chats> {
                 return null;
               },
               (onSavedVal) => {
-                userName = onSavedVal,
+                message = onSavedVal,
               },
+              isMultiline: true,
               initialValue: "",
               obscureText: false,
-              borderFocusColor: Colors.white,
-              prefixIconColor: Colors.white,
-              borderColor: Colors.white,
-              textColor: Colors.white,
-              hintColor: Colors.white.withOpacity(0.7),
+              borderFocusColor: Colors.blue,
+              prefixIconColor: Colors.blue,
+              borderColor: Colors.blue,
+              textColor: Colors.blue,
+              hintColor: Colors.blue.withOpacity(0.7),
               borderRadius: 10,
             ),
-          ),
-          TextFormField(
-              minLines: 6, // any number you need (It works as the rows for the textarea)
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-            ),
-          
+
+
+     
+ 
           const SizedBox(
-            height: 60,
+            height:80,
           ),
           Center(
             child: FormHelper.submitButton(
@@ -159,7 +170,44 @@ class _ChatsState extends State<Chats> {
                     isApiCallProcess = true;
                   });
           
-                  
+                  Contact contact = Contact(
+                    email: email,
+                    message:message
+                  );
+
+                  Contact.send(contact).then(
+                    (response) {
+                      setState(() {
+                        isApiCallProcess = false;
+                      });
+
+                      if (response != null) {
+                        FormHelper.showSimpleAlertDialog(
+                          context,
+                          "Contact",
+                          "Sent the message",
+                          "OK",
+                          () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/',
+                              (route) => false,
+                            );
+                          },
+                        );
+                      } else {
+                        FormHelper.showSimpleAlertDialog(
+                          context,
+                          "Contact",
+                          "Failed to send",
+                          "OK",
+                          () {
+                            Navigator.of(context).pop();
+                          },
+                        );
+                      }
+                    },
+                  );
 
                     
                   

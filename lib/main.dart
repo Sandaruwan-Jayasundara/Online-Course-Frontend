@@ -3,13 +3,14 @@ import 'package:frontend/providers/cart_provider.dart';
 import 'package:frontend/providers/course_provider.dart';
 import 'package:frontend/screens/add_courses.dart';
 import 'package:frontend/screens/add_user.dart';
-import 'package:frontend/screens/admin_root_app%20.dart';
+import 'package:frontend/screens/chat.dart';
 import 'package:frontend/screens/chats.dart';
 import 'package:frontend/screens/contactus.dart';
 import 'package:frontend/screens/display_card.dart';
 import 'package:frontend/screens/display_category.dart';
 
 import 'package:frontend/screens/display_course.dart';
+import 'package:frontend/screens/display_user.dart';
 import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/payment.dart';
 import 'package:frontend/screens/root.dart';
@@ -48,8 +49,13 @@ class MyApp extends StatelessWidget {
           '/adduser': (context) => const AddUser(),
           '/addcategory': (context) => const AddCategory(),
           '/addcourse': (context) => const Addcourses(),
+          '/login': (context) => const Login(),
+      
+          '/chatpage': (context) => const ChatPage(),
+          '/course': (context) => const CourseDisplay(),
           '/category': (context) => const DisplayCategory(),
-          '/admin': (context) => const AdminRootApp(),
+          '/user-management': (context) => const DisplayUser(),
+          '/logout': (context) => const Login(),
         },
         home: Root(),
       ),

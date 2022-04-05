@@ -211,7 +211,7 @@ class _RegisterState extends State<Register> {
                           () {
                             Navigator.pushNamedAndRemoveUntil(
                               context,
-                              '/',
+                              '/login',
                               (route) => false,
                             );
                           },

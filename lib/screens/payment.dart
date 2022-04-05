@@ -33,6 +33,18 @@ class _PaymentState extends State<Payment> {
       
       child: Scaffold(
         backgroundColor: HexColor("#ffffff"),
+
+      appBar: AppBar(
+        backgroundColor: HexColor("283B71"),
+             title:Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+          
+                  ),
+                ),
+        
+      ),
+
         body: ProgressHUD(
           child: Form(
             key: globalFormKey,

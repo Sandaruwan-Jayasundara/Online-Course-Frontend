@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/chats.dart';
+import 'package:frontend/screens/display_cart.dart';
 import 'package:frontend/screens/payment.dart';
-import 'package:provider/provider.dart';
-import 'package:badges/badges.dart';
 
-import '../providers/cart_provider.dart';
-import '../services/cart.dart';
 import 'add_courses.dart';
-import 'display_cart.dart';
-import 'display_course.dart';
-import 'home_screen.dart';
+import 'display_course.dart'; 
+import 'home_screen.dart'; 
+import 'Account.dart'; 
+
 
 class Root extends StatefulWidget {
   const Root({Key? key}) : super(key: key);
@@ -21,20 +20,13 @@ class _RootState extends State<Root> {
   int currentIndex = 0;
   final screens = [
     const HomeScreen(),
-    const Addcourses(),
-    const CourseDisplay(),
-    const DisplayCart()
+    const Chats(),
+    const DisplayCart(),
+    const AccountPage(),
   ];
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Provider.of<CartProvider>(context).getAllCartItems();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    List<Cart> items = Provider.of<CartProvider>(context).cartItem;
     return Scaffold(
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -48,7 +40,7 @@ class _RootState extends State<Root> {
           onTap: (index) => setState(() {
                 currentIndex = index;
               }),
-          items: [
+          items: const [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: "Home",
@@ -57,17 +49,15 @@ class _RootState extends State<Root> {
                 icon: Icon(Icons.contacts),
                 label: "Contact Us",
                 backgroundColor: Colors.blue),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: "Profile",
+                   BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart),
+                label: "Cart",
                 backgroundColor: Colors.blue),
             BottomNavigationBarItem(
-                icon: Badge(
-                  child: Icon(Icons.shopping_cart),
-                  badgeContent: Text(items.length.toString()),
-                ),
-                label: "Cart",
-                backgroundColor: Colors.blue)
+                icon: Icon(Icons.person),
+                label: "Account",
+                backgroundColor: Colors.blue),
+         
           ]),
     );
   }

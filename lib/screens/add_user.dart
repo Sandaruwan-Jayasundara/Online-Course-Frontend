@@ -35,7 +35,17 @@ class AddUserState extends State<AddUser> {
   Widget build(BuildContext context) {
     return SafeArea( 
       child: Scaffold(
-        appBar: AppBar(),
+          appBar: AppBar(
+             title:Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Text("User Management", 
+                      style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600)
+                    ,)
+                  ),
+                ),
+        
+      ),
         backgroundColor: Colors.grey[200],
         body: ProgressHUD(
           child: Form(
@@ -62,17 +72,8 @@ class AddUserState extends State<AddUser> {
       child: Column(
 
         children: <Widget>[
-     
-      const Padding(
-            padding: EdgeInsets.only(left: 20, bottom: 40, top: 50),
-            child: Text(
-              "ADD USER",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-                color: Color.fromARGB(255, 1, 37, 99),
-              ),
-            ),
+         const SizedBox(
+            height: 80,
           ),
 
           Padding(
@@ -241,7 +242,7 @@ class AddUserState extends State<AddUser> {
                           () {
                             Navigator.pushNamedAndRemoveUntil(
                               context,
-                              '/',
+                              '/user-management',
                               (route) => false,
                             );
                           },

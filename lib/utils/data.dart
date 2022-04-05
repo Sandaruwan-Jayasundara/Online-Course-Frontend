@@ -1,8 +1,13 @@
 var profile = {
   "name" : "Sangvaleap",
   "image" : "https://avatars.githubusercontent.com/u/86506519?v=4",
-  "email" : "sangvaleap.vanny@gmail.com"
+  "email" : "CTSE"
 };
+
+var categoryIcon = {
+  "name" : "Category",
+  "image" : "https://cdn.learnwoo.com/wp-content/uploads/2016/11/Product-Management_Managing-categories.png"
+  };
 
 List categories = [
   {

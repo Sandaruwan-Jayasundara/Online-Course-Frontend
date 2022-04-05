@@ -28,6 +28,7 @@ class _DisplayCartState extends State<DisplayCart> {
     List<Cart> items = Provider.of<CartProvider>(context).cartItem;
     return Scaffold(
         appBar: AppBar(
+          
           title: const Center(
             child: Text("Cart"),
           ),

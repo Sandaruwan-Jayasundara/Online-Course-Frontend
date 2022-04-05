@@ -70,34 +70,7 @@ class _AccountPageState extends State<AccountPage> {
           SizedBox(
             height: 20,
           ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: SettingBox(
-                  title: "12 courses",
-                  icon: "assets/icons/work.svg",
-                )),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                    child: SettingBox(
-                  title: "55 hours",
-                  icon: "assets/icons/time.svg",
-                )),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                    child: SettingBox(
-                  title: "4.8",
-                  icon: "assets/icons/star.svg",
-                )),
-              ],
-            ),
-          ),
+    
           SizedBox(
             height: 20,
           ),
@@ -177,27 +150,8 @@ class _AccountPageState extends State<AccountPage> {
                 ),
               ],
             ),
-            child: Column(children: [
-              SettingItem(
-                title: "Notification",
-                leadingIcon: "assets/icons/bell.svg",
-                bgIconColor: purple,
-                onTap: () {},
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 45),
-                child: Divider(
-                  height: 0,
-                  color: Colors.grey.withOpacity(0.8),
-                ),
-              ),
-              SettingItem(
-                title: "Privacy",
-                leadingIcon: "assets/icons/shield.svg",
-                bgIconColor: orange,
-                onTap: () {},
-              ),
-            ]),
+           
+         
           ),
           SizedBox(
             height: 20,
@@ -222,7 +176,10 @@ class _AccountPageState extends State<AccountPage> {
                 leadingIcon: "assets/icons/logout.svg",
                 bgIconColor: darker,
                 onTap: () {
-                  print("log out");
+                Navigator.pushNamed(
+                     context,
+                   '/logout',
+                  );
                 },
               ),
             ]),

@@ -66,10 +66,17 @@ List<Map<String, dynamic>> _data = [];
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('ADD NEW COURSE'),
-          elevation: 0,
-        ),
+     appBar: AppBar(
+             title:Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Text("Course", 
+                      style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600)
+                    ,)
+                  ),
+                ),
+        
+      ),
         backgroundColor: Colors.grey[200],
         body: ProgressHUD(
           child: Form(
@@ -233,11 +240,11 @@ List<Map<String, dynamic>> _data = [];
             ),
           ),
           const SizedBox(
-            height: 60,
+            height: 30,
           ),
           imageprofile(),
-          const SizedBox(
-            height: 60,
+       const SizedBox(
+            height: 40,
           ),
           Center(
             child: FormHelper.submitButton(
