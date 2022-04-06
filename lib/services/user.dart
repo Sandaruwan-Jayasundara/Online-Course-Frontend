@@ -11,16 +11,13 @@ class User {
   late final String? type;
   late final String? password;
 
-  User({this.userId, this.name, this.type,this.email, this.password});
+  User({this.userId, this.name, this.type, this.email, this.password});
 
-
-
- factory User.fromJson(Map<String, dynamic> json) {
-    print("aaaaaaaaa");
+  factory User.fromJson(Map<String, dynamic> json) {
     return User(
         userId: json['_id'],
-        email: json['name'],
-        name: json['email'],
+        email: json['email'],
+        name: json['name'],
         type: json['type'],
         password: json['password']);
   }
@@ -34,8 +31,6 @@ class User {
       "password": password,
     };
   }
-
-
 
   static Future<String?> registerUser(User user) async {
     Response response = await post(Uri.parse(endpoint + "/register"),
@@ -57,9 +52,6 @@ class User {
     }
   }
 
-
-
-
   static Future<User> deleteUser(String id) async {
     Response response = await delete(Uri.parse('${endpoint}/delete/${id}'));
     if (response.statusCode == 200) {
@@ -69,19 +61,17 @@ class User {
     }
   }
 
-
-
-
-  static Future<String> loginUser(User user) async {
+  static Future<User> loginUser(User user) async {
     Response response = await post(Uri.parse(endpoint + "/login"),
         body: json.encode(user), headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
-      return jsonDecode(response.body)['status'];
+      dynamic body = jsonDecode(response.body);
+      User user = User.fromJson(body);
+      return user;
     } else {
       throw Exception('failed to add new user');
     }
   }
-
 
   static Future<String?> addNewUser(User user) async {
     Response response = await post(Uri.parse(endpoint + "/add"),
@@ -92,7 +82,6 @@ class User {
       throw Exception('failed to add new user');
     }
   }
-
 
   static Future<List<User>> getAllUsers() async {
     Response response = await get(Uri.parse(endpoint));
@@ -105,6 +94,4 @@ class User {
       throw Exception('categories are not available');
     }
   }
-
-
 }

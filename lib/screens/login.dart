@@ -2,17 +2,19 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/services/user.dart';
+import 'package:provider/provider.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 
+import '../providers/user_provider.dart';
 
 class Login extends StatefulWidget {
-  const Login({ Key? key }) : super(key: key);
+  const Login({Key? key}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
-} 
+}
 
 class _LoginState extends State<Login> {
   bool isApiCallProcess = false;
@@ -88,7 +90,7 @@ class _LoginState extends State<Login> {
                 Align(
                   alignment: Alignment.center,
                   child: Image.asset(
-                       "assets/Logo/_logo.png",
+                    "assets/Logo/_logo.png",
                     fit: BoxFit.contain,
                     width: 250,
                   ),
@@ -205,25 +207,33 @@ class _LoginState extends State<Login> {
                     isApiCallProcess = true;
                   });
 
-                 User user = User(
+                  User user = User(
                     email: email,
                     password: password,
                   );
 
-                   User.loginUser(user).then(
-                    (response) {
+                  User.loginUser(user).then(
+                    (User response) {
                       setState(() {
                         isApiCallProcess = false;
                       });
 
-                      if (response !=null) {
-
-                          
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          '/home',
-                          (route) => false,
-                        );
+                      if (response != null) {
+                        Provider.of<UserProvider>(context,listen: false).currentUser =
+                            response;
+                        if (response.type == "Admin") {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            '/sidebar',
+                            (route) => false,
+                          );
+                        } else {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            '/home',
+                            (route) => false,
+                          );
+                        }
                       } else {
                         FormHelper.showSimpleAlertDialog(
                           context,
@@ -308,5 +318,5 @@ class _LoginState extends State<Login> {
       return true;
     }
     return false;
-  } 
+  }
 }

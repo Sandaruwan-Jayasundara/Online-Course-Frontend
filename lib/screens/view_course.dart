@@ -91,7 +91,7 @@ class _ViewCourseState extends State<ViewCourse> {
                                 () {
                                   Navigator.pushNamedAndRemoveUntil(
                                     context,
-                                    '/',
+                                    '/home',
                                     (route) => false,
                                   );
                                 },

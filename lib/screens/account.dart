@@ -4,6 +4,9 @@ import 'package:frontend/utils/data.dart';
 import 'package:frontend/widgets/custom_image.dart';
 import 'package:frontend/widgets/setting_box.dart';
 import 'package:frontend/widgets/setting_item.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/user_provider.dart';
 
 
 
@@ -62,7 +65,7 @@ class _AccountPageState extends State<AccountPage> {
                 height: 10,
               ),
               Text(
-                profile["name"]!,
+                   Provider.of<UserProvider>(context, listen: false).name!,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ],

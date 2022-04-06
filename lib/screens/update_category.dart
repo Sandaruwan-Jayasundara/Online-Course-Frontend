@@ -1,35 +1,34 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/services/category.dart';
 import 'package:frontend/utils/data.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
-import 'package:image_picker/image_picker.dart';
+
+import '../services/category.dart';
 import '../widgets/custom_image.dart';
 
-class AddCategory extends StatefulWidget {
-    static String routeName = '/addcategory';
-  const AddCategory({ Key? key }) : super(key: key);
-  
-@override
-  State<AddCategory> createState() => _AddCategoryState();
+class UpdateCategory extends StatefulWidget {
+  final Category category;
+  const UpdateCategory({Key? key, required this.category}) : super(key: key);
+
+  @override
+  State<UpdateCategory> createState() => _UpdateCategoryState();
 }
 
-class _AddCategoryState extends State<AddCategory> {
+class _UpdateCategoryState extends State<UpdateCategory> {
   bool isApiCallProcess = false;
 
   static final GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   String? CategoryName;
   String? CategoryNumber;
 
-
   List<Object> images = [];
   bool isEditMode = false;
   bool isImageSelected = false;
   File? categoryImage;
-
 
   @override
   void initState() {
@@ -38,21 +37,21 @@ class _AddCategoryState extends State<AddCategory> {
 
   @override
   Widget build(BuildContext context) {
-
-
-   return SafeArea( 
+    return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-             title:Expanded(
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Text("Category", 
-                      style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600)
-                    ,)
-                  ),
-                ),
-        
-      ),
+          title: Expanded(
+            child: Container(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  "Category",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600),
+                )),
+          ),
+        ),
         backgroundColor: Colors.grey[200],
         body: ProgressHUD(
           child: Form(
@@ -69,26 +68,20 @@ class _AddCategoryState extends State<AddCategory> {
 
   Widget addCategoryForm() {
     return SingleChildScrollView(
-      
       child: Column(
-        
         children: <Widget>[
-
-            const SizedBox(
+          const SizedBox(
             height: 60,
           ),
-      
-                      CustomImage(
-                        categoryIcon["image"]!,
-                        width: 100,
-                        height:100,
-                        radius: 20,
-                      ),
-            
-      const SizedBox(
+          CustomImage(
+            categoryIcon["image"]!,
+            width: 100,
+            height: 100,
+            radius: 20,
+          ),
+          const SizedBox(
             height: 60,
           ),
-            
           Padding(
             padding: const EdgeInsets.only(bottom: 25),
             child: FormHelper.inputFieldWidget(
@@ -103,9 +96,9 @@ class _AddCategoryState extends State<AddCategory> {
                 return null;
               },
               (onSavedVal) => {
-                CategoryName = onSavedVal, 
+                CategoryName = onSavedVal,
               },
-              initialValue: "",
+              initialValue: widget.category.CategoryName!,
               obscureText: false,
               borderFocusColor: Color.fromARGB(255, 1, 37, 99),
               prefixIconColor: Color.fromARGB(255, 1, 37, 99),
@@ -116,10 +109,10 @@ class _AddCategoryState extends State<AddCategory> {
             ),
           ),
           Padding(
-           padding: const EdgeInsets.only(bottom: 25),
+            padding: const EdgeInsets.only(bottom: 25),
             child: FormHelper.inputFieldWidget(
               context,
-             "CategoryNumber",
+              "CategoryNumber",
               "Category Number",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
@@ -130,7 +123,7 @@ class _AddCategoryState extends State<AddCategory> {
               (onSavedVal) => {
                 CategoryNumber = onSavedVal,
               },
-              initialValue: "",
+              initialValue: widget.category.CategoryNumber!,
               borderFocusColor: Color.fromARGB(255, 1, 37, 99),
               prefixIconColor: Color.fromARGB(255, 1, 37, 99),
               borderColor: Color.fromARGB(255, 1, 37, 99),
@@ -139,28 +132,30 @@ class _AddCategoryState extends State<AddCategory> {
               borderRadius: 10,
             ),
           ),
-        imageprofile(),
+          imageprofile(),
           const SizedBox(
             height: 60,
           ),
           Center(
             child: FormHelper.submitButton(
-              "CREATE",
+              "UPDATE",
               () {
                 if (validateAndSave()) {
                   setState(() {
                     isApiCallProcess = true;
                   });
-          
+
                   Category category = Category(
-                    categoryId:"",
+                    categoryId: widget.category.categoryId,
                     CategoryName: CategoryName,
                     CategoryNumber: CategoryNumber,
-                     CategoryImage: "",
-
+                    CategoryImage: widget.category.categoryId,
                   );
 
-                  Category.addNewCategory(category, categoryImage!).then(
+                  (categoryImage == null
+                          ? Category.updateCategoryWithoutImage(category)
+                          : Category.updateCategory(category, categoryImage!))
+                      .then(
                     (response) {
                       setState(() {
                         isApiCallProcess = false;
@@ -170,7 +165,7 @@ class _AddCategoryState extends State<AddCategory> {
                         FormHelper.showSimpleAlertDialog(
                           context,
                           "Category",
-                          "Category Added.",
+                          "Category Updated.",
                           "OK",
                           () {
                             Navigator.pushNamedAndRemoveUntil(
@@ -209,16 +204,14 @@ class _AddCategoryState extends State<AddCategory> {
     );
   }
 
-
   bool validateAndSave() {
     final form = globalFormKey.currentState;
-    if (form!.validate() && categoryImage != null) {
+    if (form!.validate()) {
       form.save();
       return true;
     }
     return false;
   }
-
 
   Widget imageprofile() {
     return Center(
@@ -227,7 +220,7 @@ class _AddCategoryState extends State<AddCategory> {
           categoryImage != null
               ? Image.file(categoryImage!, height: 160, width: 160)
               : Image.asset(
-                  "assets/images/default.png",
+                  widget.category.CategoryImage!,
                   height: 160,
                   width: 160,
                 ),
@@ -298,7 +291,4 @@ class _AddCategoryState extends State<AddCategory> {
   isValidURL(url) {
     return Uri.tryParse(url)?.hasAbsolutePath ?? false;
   }
-
-
-
 }

@@ -108,9 +108,9 @@ class _UpdateCourseState extends State<UpdateCourse> {
             child: FormHelper.inputFieldWidget(
               context,
               "courseName",
-              widget.course.courseName,
+              "course Name",
               (onValidateVal) {
-                if (widget.course.courseName.isEmpty && onValidateVal.isEmpty) {
+                if (onValidateVal.isEmpty) {
                   return 'Course name can\'t be empty.';
                 }
 
@@ -119,6 +119,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
               (onSavedVal) => {
                 courseName = onSavedVal,
               },
+              initialValue: widget.course.courseName,
               obscureText: false,
               borderFocusColor: Color.fromARGB(255, 1, 37, 99),
               prefixIconColor: Color.fromARGB(255, 1, 37, 99),
@@ -137,10 +138,9 @@ class _UpdateCourseState extends State<UpdateCourse> {
             child: FormHelper.inputFieldWidget(
               context,
               "coursePrice",
-              widget.course.coursePrice,
+              "Course Price",
               (onValidateVal) {
-                if (widget.course.coursePrice.isEmpty &&
-                    onValidateVal.isEmpty) {
+                if (onValidateVal.isEmpty) {
                   return 'Course Price can\'t be empty.';
                 }
 
@@ -149,6 +149,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
               (onSavedVal) => {
                 coursePrice = onSavedVal,
               },
+              initialValue: widget.course.coursePrice,
               obscureText: false,
               borderFocusColor: Color.fromARGB(255, 1, 37, 99),
               prefixIconColor: Color.fromARGB(255, 1, 37, 99),
@@ -168,10 +169,9 @@ class _UpdateCourseState extends State<UpdateCourse> {
             child: FormHelper.inputFieldWidget(
               context,
               "courseDuration",
-              widget.course.courseDuration,
+              "Course Duration",
               (onValidateVal) {
-                if (widget.course.courseDuration.isEmpty &&
-                    onValidateVal.isEmpty) {
+                if (onValidateVal.isEmpty) {
                   return 'Course Duration can\'t be empty.';
                 }
 
@@ -180,6 +180,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
               (onSavedVal) => {
                 courseDuration = onSavedVal,
               },
+              initialValue: widget.course.courseDuration,
               obscureText: false,
               borderFocusColor: Color.fromARGB(255, 1, 37, 99),
               prefixIconColor: Color.fromARGB(255, 1, 37, 99),
@@ -214,10 +215,9 @@ class _UpdateCourseState extends State<UpdateCourse> {
             child: FormHelper.inputFieldWidget(
               context,
               "courseDescription",
-              widget.course.courseDescription,
+              "Course Description",
               (onValidateVal) {
-                if (widget.course.courseDescription.isEmpty &&
-                    onValidateVal.isEmpty) {
+                if (onValidateVal.isEmpty) {
                   return 'Course Description cant be null!.';
                 }
 
@@ -226,6 +226,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
               (onSavedVal) => {
                 courseDescription = onSavedVal,
               },
+              initialValue: widget.course.courseDescription,
               obscureText: false,
               borderFocusColor: Color.fromARGB(255, 1, 37, 99),
               prefixIconColor: Color.fromARGB(255, 1, 37, 99),
@@ -255,29 +256,18 @@ class _UpdateCourseState extends State<UpdateCourse> {
 
                   Course course = Course(
                       courseId: widget.course.courseId,
-                      courseName: courseName == ''
-                          ? widget.course.courseName
-                          : courseName!,
-                      courseDuration: courseDuration == ''
-                          ? widget.course.courseDuration
-                          : courseDuration!,
+                      courseName: courseName!,
+                      courseDuration: courseDuration!,
                       courseImage: widget.course.courseImage,
-                      coursePrice: coursePrice == ''
-                          ? widget.course.coursePrice
-                          : coursePrice!,
-                      courseCategory: courseCategory == ''
-                          ? widget.course.courseCategory
-                          : courseCategory!,
-                      courseDescription: courseDescription == ''
-                          ? widget.course.courseDescription
-                          : courseDescription!);
+                      coursePrice: coursePrice!,
+                      courseCategory: courseCategory!,
+                      courseDescription: courseDescription!);
 
                   (courseImage == null
                           ? Course.updateCourseWithoutImage(course)
                           : Course.updateCourse(course, courseImage!))
                       .then(
                     (response) {
-                      print("sdsdsds");
                       setState(() {
                         isApiCallProcess = false;
                       });

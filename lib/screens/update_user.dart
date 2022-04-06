@@ -191,7 +191,7 @@ class _UpdateUserState extends State<UpdateUser> {
                           () {
                             Navigator.pushNamedAndRemoveUntil(
                               context,
-                              '/',
+                              '/user-management',
                               (route) => false,
                             );
                           },

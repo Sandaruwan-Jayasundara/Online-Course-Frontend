@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/theme/color.dart';
 import 'package:frontend/utils/data.dart';
+import 'package:provider/provider.dart';
 
 import '../components/course_tile.dart';
 import '../components/home_course_tile.dart';
+import '../providers/user_provider.dart';
 import '../services/category.dart';
 import '../services/course.dart';
 import '../widgets/notification_box.dart';
@@ -55,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  profile["name"]!,
+                  Provider.of<UserProvider>(context, listen: false).name!,
                   style: TextStyle(
                     color: labelColor,
                     fontSize: 14,
@@ -157,6 +159,5 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _categories = Data;
     });
-    print("dfdf");
   }
 }
