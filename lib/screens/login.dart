@@ -113,11 +113,11 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.only(bottom: 10),
             child: FormHelper.inputFieldWidget(
               context,
-              "Username",
-              "Username",
+              "Email",
+              "Email",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return 'Username can\'t be empty.';
+                  return 'Email can\'t be empty.';
                 }
 
                 return null;
@@ -219,8 +219,8 @@ class _LoginState extends State<Login> {
                       });
 
                       if (response != null) {
-                        Provider.of<UserProvider>(context,listen: false).currentUser =
-                            response;
+                        Provider.of<UserProvider>(context, listen: false)
+                            .currentUser = response;
                         if (response.type == "Admin") {
                           Navigator.pushNamedAndRemoveUntil(
                             context,

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:select_form_field/select_form_field.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
@@ -69,8 +70,12 @@ class _UpdateCourseState extends State<UpdateCourse> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('UPDATE COURSE'),
+          title: Center(
+            child:
+                Text('Update Course', style: GoogleFonts.oswald(fontSize: 25)),
+          ),
           elevation: 0,
+          backgroundColor: Colors.orange,
         ),
         backgroundColor: Colors.grey[200],
         body: ProgressHUD(
@@ -247,7 +252,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
           ),
           Center(
             child: FormHelper.submitButton(
-              "UPDATE COURSE",
+              "Update Course",
+      
               () {
                 if (validateAndSave()) {
                   setState(() {
@@ -301,8 +307,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
                   );
                 }
               },
-              btnColor: HexColor("283B71"),
-              borderColor: Colors.white,
+              btnColor: Colors.orange,
+              borderColor: Colors.black,
               txtColor: Colors.white,
               borderRadius: 10,
             ),

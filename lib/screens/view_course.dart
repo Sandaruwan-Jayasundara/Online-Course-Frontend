@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/cart.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 
 import '../services/course.dart';
@@ -29,7 +30,7 @@ class _ViewCourseState extends State<ViewCourse> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.course.courseName}'),
+        title: Text('Course - ${widget.course.courseName}'),
         backgroundColor: Colors.orange,
       ),
       body: SingleChildScrollView(
@@ -37,11 +38,14 @@ class _ViewCourseState extends State<ViewCourse> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: Image.asset(
-                widget.course.courseImage,
-                width: 800,
-                height: 300,
-                fit: BoxFit.cover,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  widget.course.courseImage,
+                  width: 800,
+                  height: 300,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(
@@ -51,7 +55,7 @@ class _ViewCourseState extends State<ViewCourse> {
             Text(
               '${widget.course.courseName}',
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 30),
+              style: GoogleFonts.oswald(fontSize: 35),
             ),
             const SizedBox(
               width: double.infinity,
@@ -59,21 +63,28 @@ class _ViewCourseState extends State<ViewCourse> {
             ),
             Text(
               '${widget.course.courseDescription}',
-              style: TextStyle(fontSize: 30),
+              style: GoogleFonts.oswald(fontSize: 30, color: Colors.grey),
             ),
             const SizedBox(
               width: double.infinity,
               height: 10,
             ),
             Text(
-              'Course price: ${widget.course.coursePrice}',
-              style: TextStyle(fontSize: 20),
+              'Course price: RS ${widget.course.coursePrice}.00',
+              style: GoogleFonts.oswald(fontSize: 20),
             ),
             const SizedBox(
               width: double.infinity,
               height: 10,
             ),
             ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  onPrimary: Colors.white,
+                  primary: Colors.orange,
+                  onSurface: Colors.grey,
+                  side: BorderSide(color: Colors.black, width: 1),
+                  minimumSize: Size(150, 50),
+                ),
                 onPressed: status == false
                     ? () {
                         final Cart cart = Cart(
@@ -111,7 +122,8 @@ class _ViewCourseState extends State<ViewCourse> {
                         );
                       }
                     : null,
-                child: Text("Add To Cart")),
+                child: Text("Add To Cart",
+                    style: GoogleFonts.oswald(fontSize: 20))),
           ],
         ),
       ),

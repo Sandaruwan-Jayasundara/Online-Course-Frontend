@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/services/course.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:select_form_field/select_form_field.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
@@ -44,7 +45,7 @@ class AddcoursesState extends State<Addcourses> {
       'label': 'Mathematics',
     },
   ];
-List<Map<String, dynamic>> _data = [];
+  List<Map<String, dynamic>> _data = [];
 
   @override
   Future<void> didChangeDependencies() async {
@@ -66,17 +67,13 @@ List<Map<String, dynamic>> _data = [];
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-     appBar: AppBar(
-             title:Expanded(
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Text("Course", 
-                      style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600)
-                    ,)
-                  ),
-                ),
-        
-      ),
+        appBar: AppBar(
+          title: Center(
+            child:
+                Text('Update Course', style: GoogleFonts.oswald(fontSize: 25)),
+          ),
+          backgroundColor: Colors.orange,
+        ),
         backgroundColor: Colors.grey[200],
         body: ProgressHUD(
           child: Form(
@@ -243,12 +240,12 @@ List<Map<String, dynamic>> _data = [];
             height: 30,
           ),
           imageprofile(),
-       const SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Center(
             child: FormHelper.submitButton(
-              "ADD COURSE",
+              "Add Course",
               () {
                 if (validateAndSave()) {
                   setState(() {
@@ -299,8 +296,8 @@ List<Map<String, dynamic>> _data = [];
                   );
                 }
               },
-              btnColor: HexColor("283B71"),
-              borderColor: Colors.white,
+              btnColor: Colors.orange,
+              borderColor: Colors.black,
               txtColor: Colors.white,
               borderRadius: 10,
             ),

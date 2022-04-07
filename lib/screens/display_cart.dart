@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/payment.dart';
 import 'package:frontend/screens/root.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../components/cart_tile.dart';
@@ -28,19 +29,19 @@ class _DisplayCartState extends State<DisplayCart> {
     List<Cart> items = Provider.of<CartProvider>(context).cartItem;
     return Scaffold(
         appBar: AppBar(
-          
+          backgroundColor: Colors.orange,
           title: const Center(
             child: Text("Cart"),
           ),
           actions: [
-            ElevatedButton(
+            IconButton(
                 onPressed: Provider.of<CartProvider>(context).total != 0
                     ? () {
                         Navigator.of(context).push(
                             MaterialPageRoute(builder: (context) => Payment()));
                       }
                     : null,
-                child: Text("Checkout"))
+                icon: Icon(Icons.shopping_cart_checkout))
           ],
         ),
         body: items.length != 0
@@ -56,7 +57,7 @@ class _DisplayCartState extends State<DisplayCart> {
                   Flexible(
                     flex: 1,
                     child: Text(
-                      Provider.of<CartProvider>(context).total.toString(),
+                      'Rs. ${Provider.of<CartProvider>(context).total.toString()}',
                       style: Theme.of(context).textTheme.headline4,
                     ),
                   )
@@ -71,13 +72,20 @@ class _DisplayCartState extends State<DisplayCart> {
                     height: 40,
                   ),
                   Text("Cart is empty",
-                      style: Theme.of(context).textTheme.labelMedium),
+                      style: GoogleFonts.oswald(fontSize: 25)),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(
                             MaterialPageRoute(builder: (context) => Root()));
                       },
-                      child: Text("Start Shopping"))
+                      style: ElevatedButton.styleFrom(
+                        onPrimary: Colors.white,
+                        primary: Colors.orange,
+                        onSurface: Colors.grey,
+                        side: BorderSide(color: Colors.black, width: 1),
+                      ),
+                      child: Text("Start Shopping",
+                          style: GoogleFonts.oswald(fontSize: 15)))
                 ],
               ));
   }

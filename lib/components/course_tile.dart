@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/display_course.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/course_provider.dart';
@@ -27,12 +28,12 @@ class _CourseTileState extends State<CourseTile> {
             Expanded(child: Image.asset(widget.course.courseImage)),
             Text(
               widget.course.courseName,
-              style: Theme.of(context).textTheme.headline6,
+              style: GoogleFonts.oswald(fontSize: 20),
               textAlign: TextAlign.center,
             ),
             Text(
-              '${widget.course.coursePrice}',
-              style: Theme.of(context).textTheme.caption,
+              'Rs ${widget.course.coursePrice}.00',
+              style: GoogleFonts.oswald(fontSize: 15, color: Colors.grey),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +44,7 @@ class _CourseTileState extends State<CourseTile> {
                           builder: (context) =>
                               UpdateCourse(course: widget.course)));
                     },
-                    icon: Icon(Icons.update)),
+                    icon: Icon(Icons.edit)),
                 SizedBox(
                   width: 20,
                 ),

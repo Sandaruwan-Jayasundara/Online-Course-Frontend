@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../screens/view_course.dart';
 import '../services/course.dart';
@@ -23,12 +24,12 @@ class HomeCourseTile extends StatelessWidget {
               Expanded(child: Image(image: AssetImage(course.courseImage))),
               Text(
                 course.courseName,
-                style: Theme.of(context).textTheme.headline6,
+                style: GoogleFonts.oswald(fontSize: 20),
                 textAlign: TextAlign.center,
               ),
               Text(
-                '${course.coursePrice}',
-                style: Theme.of(context).textTheme.caption,
+                'Rs ${course.coursePrice}.00',
+                style: GoogleFonts.oswald(fontSize: 15, color: Colors.grey),
               ),
             ],
           ),
