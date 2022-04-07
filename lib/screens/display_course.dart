@@ -42,7 +42,7 @@ class _CourseDisplayState extends State<CourseDisplay> {
               alignment: Alignment.centerLeft,
               child: Center(
                 child: Text(
-                  "Courses",
+                  "Course",
                   style: GoogleFonts.oswald(fontSize: 25),
                 ),
               )),

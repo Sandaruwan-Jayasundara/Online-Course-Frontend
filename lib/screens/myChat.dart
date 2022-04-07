@@ -6,6 +6,7 @@ import 'package:frontend/screens/ViewContact.dart';
 import 'package:frontend/screens/add_category.dart';
 import 'package:frontend/screens/add_user.dart';
 import 'package:frontend/screens/side_bar.dart';
+import 'package:frontend/screens/updateChat.dart';
 import 'package:frontend/screens/update_user.dart';
 import 'package:frontend/services/contact.dart';
 import 'package:frontend/services/user.dart';
@@ -15,14 +16,14 @@ import 'package:provider/provider.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 import '../services/category.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+class MyChat extends StatefulWidget {
+  const MyChat({Key? key}) : super(key: key);
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<MyChat> createState() => _MyChatState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _MyChatState extends State<MyChat> {
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -71,7 +72,7 @@ class _ChatPageState extends State<ChatPage> {
                   child: Column(
                     children: [
                      
-                      Text(contact.email!,
+                      Text(contact.date!,
                           style: Theme.of(context).textTheme.headline6),
                       Text(contact.message!),
                     ],
@@ -86,15 +87,12 @@ class _ChatPageState extends State<ChatPage> {
                  children: [
                     IconButton(onPressed: () {
                       Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => ViewContact(contact: contact)),
+                            MaterialPageRoute(builder: (context) => UpdateChat(contact: contact)),
                           );
                                             
                     }, icon: Icon(Icons.edit)),
                      
-                       IconButton(onPressed: () {
-
-                      _delete(context ,contact);
-                    }, icon: Icon(Icons.delete)),
+                 
  
                   ],
               )
@@ -103,38 +101,6 @@ class _ChatPageState extends State<ChatPage> {
     ));
   }
 
-  void _delete(BuildContext context, Contact contact) {
-    showDialog(
-        context: context,
-        builder: (BuildContext ctx) {
-          return AlertDialog(
-            title: const Text('Please Confirm'),
-            content: const Text('Are you sure to remove the message ?'),
-            actions: [
-              // The "Yes" button
-              TextButton(
-                  onPressed: () {
-                    // Remove the course
 
-                    Contact.deleteContact(contact.contactId.toString());
-                    // Close the dialog
-                      Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          '/chatpage',
-                          (route) => false,
-                        );
-       
-                  },
-                  child: const Text('Yes')),
-              TextButton(
-                  onPressed: () {
-                    // Close the dialog
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('No'))
-            ],
-          );
-        });
-  }
 }
 

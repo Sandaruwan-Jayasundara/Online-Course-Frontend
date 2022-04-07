@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/services/user.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:select_form_field/select_form_field.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
@@ -42,8 +43,11 @@ class _UpdateUserState extends State<UpdateUser> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('UPDATE USER'),
-          elevation: 0,
+              title: Center(
+            child:
+                Text('Update User', style: GoogleFonts.oswald(fontSize: 25)),
+          ),
+          backgroundColor: Colors.orange,
         ),
         backgroundColor: Colors.grey[200],
         body: ProgressHUD(
@@ -211,8 +215,8 @@ class _UpdateUserState extends State<UpdateUser> {
                   );
                 }
               },
-              btnColor: HexColor("283B71"),
-              borderColor: Colors.white,
+              btnColor: Colors.orange,
+              borderColor: Colors.black,
               txtColor: Colors.white,
               borderRadius: 10,
             ),

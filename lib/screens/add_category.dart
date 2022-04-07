@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend/services/category.dart';
 import 'package:frontend/utils/data.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
@@ -43,14 +44,11 @@ class _AddCategoryState extends State<AddCategory> {
    return SafeArea( 
       child: Scaffold(
         appBar: AppBar(
-             title:Expanded(
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Text("Category", 
-                      style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600)
-                    ,)
-                  ),
-                ),
+               title: Center(
+            child:
+                Text('Add Category', style: GoogleFonts.oswald(fontSize: 25)),
+          ),
+          backgroundColor: Colors.orange,
         
       ),
         backgroundColor: Colors.grey[200],
@@ -195,8 +193,8 @@ class _AddCategoryState extends State<AddCategory> {
                   );
                 }
               },
-              btnColor: HexColor("283B71"),
-              borderColor: Colors.white,
+              btnColor: Colors.orange,
+              borderColor: Colors.black,
               txtColor: Colors.white,
               borderRadius: 10,
             ),

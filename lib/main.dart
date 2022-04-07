@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/providers/cart_provider.dart';
 import 'package:frontend/providers/category_provider.dart';
+import 'package:frontend/providers/contact_provider.dart';
 import 'package:frontend/providers/course_provider.dart';
 import 'package:frontend/providers/user_provider.dart';
 import 'package:frontend/screens/add_courses.dart';
@@ -14,6 +15,7 @@ import 'package:frontend/screens/display_category.dart';
 import 'package:frontend/screens/display_course.dart';
 import 'package:frontend/screens/display_user.dart';
 import 'package:frontend/screens/home_screen.dart';
+import 'package:frontend/screens/myChat.dart';
 import 'package:frontend/screens/payment.dart';
 import 'package:frontend/screens/root.dart';
 import 'package:frontend/screens/side_bar.dart';
@@ -46,6 +48,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ContactProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -70,6 +75,7 @@ class MyApp extends StatelessWidget {
           '/user-management': (context) => const DisplayUser(),
           '/logout': (context) => const Login(),
           "/sidebar": (context) => SideBar(),
+          "/display-chat": (context) => MyChat(),
         },
       ),
     );

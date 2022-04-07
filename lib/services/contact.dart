@@ -47,6 +47,18 @@ class Contact {
     }
   }
 
+  static Future<String?> updateContact(Contact contact) async {
+    Response response = await post(Uri.parse(endpoint + "/update"),
+        body: json.encode(contact), headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body)['status'];
+    } else {
+      throw Exception('failed to add new user');
+    }
+  }
+
+
+
   static Future<Contact> deleteContact(String id) async {
     Response response = await delete(Uri.parse('${endpoint}/remove/${id}'));
     if (response.statusCode == 200) {

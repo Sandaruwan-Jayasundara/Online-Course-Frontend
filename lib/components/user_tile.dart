@@ -29,10 +29,12 @@ class _CourseTileState extends State<CourseTile> {
               widget.course.courseName,
               style: Theme.of(context).textTheme.headline6,
               textAlign: TextAlign.center,
+              
             ),
             Text(
               '${widget.course.coursePrice}',
               style: Theme.of(context).textTheme.caption,
+              
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

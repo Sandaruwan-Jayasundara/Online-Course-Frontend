@@ -14,7 +14,7 @@ class SideBar extends StatelessWidget {
           DrawerHeader(
             child: Text(
               'Welcome ${Provider.of<UserProvider>(context, listen: false).name!}!!!',
-              style: TextStyle(color: Colors.white, fontSize: 25),
+              style: TextStyle(color: Colors.blueGrey, fontSize: 25),
             ),
             decoration: BoxDecoration(
                 color: Colors.green,

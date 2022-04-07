@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/providers/user_provider.dart';
 import 'package:frontend/screens/add_category.dart';
@@ -6,6 +7,7 @@ import 'package:frontend/screens/side_bar.dart';
 import 'package:frontend/screens/update_user.dart';
 import 'package:frontend/services/user.dart';
 import 'package:frontend/theme/color.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 import '../services/category.dart';
@@ -30,25 +32,34 @@ class _DisplayUserState extends State<DisplayUser> {
     List<User> users = Provider.of<UserProvider>(context).users;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: HexColor("283B71"),
-          title: Expanded(
-            child: Container(
-                alignment: Alignment.centerLeft,
+        backgroundColor: Colors.orange,
+        title: Expanded(
+          child: Container(
+              alignment: Alignment.centerLeft,
+              child: Center(
                 child: Text(
-                  "Management",
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600),
-                )),
-          ),
-          actions: [
-            IconButton(
+                  "User Management",
+                  style: GoogleFonts.oswald(fontSize: 25),
+                ),
+              )),
+        ),
+        actions: [
+          Tooltip(
+            waitDuration: Duration(seconds: 1),
+            showDuration: Duration(seconds: 2),
+            message: 'Add New User',
+            child: IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, AddUser.routeName);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AnimatedSplashScreen(
+                          splash: Icons.add_sharp,
+                          splashTransition: SplashTransition.fadeTransition,
+                          duration: 3000,
+                          nextScreen: AddUser())));
                 },
-                icon: const Icon(Icons.ad_units))
-          ],
+                icon: const Icon(Icons.add_sharp)),
+          )
+        ],
         ),
         drawer: SideBar(),
         body: ListView.builder(
@@ -62,16 +73,23 @@ class _DisplayUserState extends State<DisplayUser> {
     return (Padding(
       padding: const EdgeInsets.all(3.0),
       child: Card(
-          elevation: 3,
+          elevation: 4,
+          
           child: Row(
+
+            
             children: [
               SizedBox(width: 20),
               Container(
                 width: 240,
                 child: Flexible(
                   flex: 9,
+            
                   child: Column(
+              
                     children: [
+                      
+                    
                       Text(user.name!,
                           style: Theme.of(context).textTheme.headline6),
                       Text(user.email!),
@@ -80,7 +98,7 @@ class _DisplayUserState extends State<DisplayUser> {
                 ),
               ),
               SizedBox(
-                width: 40,
+                width: 15,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -115,7 +133,7 @@ class _DisplayUserState extends State<DisplayUser> {
         builder: (BuildContext ctx) {
           return AlertDialog(
             title: const Text('Please Confirm'),
-            content: const Text('Are you sure to remove the course ?'),
+            content: const Text('Are you sure to remove the user ?'),
             actions: [
               // The "Yes" button
               TextButton(

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend/services/course.dart';
 import 'package:frontend/services/user.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
@@ -36,14 +37,11 @@ class AddUserState extends State<AddUser> {
     return SafeArea( 
       child: Scaffold(
           appBar: AppBar(
-             title:Expanded(
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Text("User Management", 
-                      style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600)
-                    ,)
-                  ),
-                ),
+             title: Center(
+            child:
+                Text('Add User', style: GoogleFonts.oswald(fontSize: 25)),
+          ),
+          backgroundColor: Colors.orange,
         
       ),
         backgroundColor: Colors.grey[200],
@@ -262,8 +260,8 @@ class AddUserState extends State<AddUser> {
                   );
                 }
               },
-              btnColor: HexColor("283B71"),
-              borderColor: Colors.white,
+          btnColor: Colors.orange,
+              borderColor: Colors.black,
               txtColor: Colors.white,
               borderRadius: 10,
             ),

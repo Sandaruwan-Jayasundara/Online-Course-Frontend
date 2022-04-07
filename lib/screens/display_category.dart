@@ -1,6 +1,8 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/add_category.dart';
 import 'package:frontend/screens/side_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 import '../components/category_tile.dart';
@@ -27,24 +29,33 @@ class _DisplayCategoryState extends State<DisplayCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: HexColor("283B71"),
-        title: Expanded(
+     backgroundColor: Colors.orange,
+     title: Expanded(
           child: Container(
               alignment: Alignment.centerLeft,
-              child: Text(
-                "Category",
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600),
+              child: Center(
+                child: Text(
+                  "Category",
+                  style: GoogleFonts.oswald(fontSize: 25),
+                ),
               )),
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AddCategory.routeName);
-              },
-              icon: const Icon(Icons.ad_units))
+          Tooltip(
+            waitDuration: Duration(seconds: 1),
+            showDuration: Duration(seconds: 2),
+            message: 'Add New Category',
+            child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AnimatedSplashScreen(
+                          splash: Icons.add_sharp,
+                          splashTransition: SplashTransition.fadeTransition,
+                          duration: 3000,
+                          nextScreen: AddCategory())));
+                },
+                icon: const Icon(Icons.add_sharp)),
+          )
         ],
       ),
       drawer: SideBar(),

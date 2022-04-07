@@ -9,28 +9,28 @@ import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 
 
-class ViewContact extends StatefulWidget {
+class UpdateChat extends StatefulWidget {
   final Contact contact;
-  const ViewContact({Key? key, required this.contact}) : super(key: key);
+  const UpdateChat({Key? key, required this.contact}) : super(key: key);
 
   @override
-  State<ViewContact> createState() => _ViewContactState();
+  State<UpdateChat> createState() => _UpdateChatState();
 }
 
-class _ViewContactState extends State<ViewContact> {
+class _UpdateChatState extends State<UpdateChat> {
   static final GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   bool isApiCallProcess = false;
 
 
-  String? reply;
-
+  String? message;
+  String? email;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Reply'),
+          title: const Text('Edit Chat'),
           elevation: 0,
         ),
         backgroundColor: Colors.grey[200],
@@ -59,34 +59,66 @@ class _ViewContactState extends State<ViewContact> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SizedBox(
-            height: 20,
+            height: 60,
           ),
-
-
-          FormHelper.inputFieldWidget(
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 10,
+              top: 10,
+            ),
+            child: FormHelper.inputFieldWidget(
               context,
-              "reply",
-              "reply",
+              "email",
+                widget.contact.email.toString(),
+              (onValidateVal) {
+        
+
+                return null;
+              },
+              (onSavedVal) => {
+                email = onSavedVal,
+              },
+              obscureText: false,
+              borderFocusColor: Color.fromARGB(255, 1, 37, 99),
+              prefixIconColor: Color.fromARGB(255, 1, 37, 99),
+              borderColor: Color.fromARGB(255, 1, 37, 99),
+              textColor: Color.fromARGB(255, 1, 37, 99),
+              hintColor: Color.fromARGB(255, 1, 37, 99).withOpacity(0.7),
+              borderRadius: 10,
+              showPrefixIcon: false,
+            ),
+          ),
+       
+          
+         FormHelper.inputFieldWidget(
+              context,
+              "message",
+               widget.contact.message.toString(),
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return 'Reply can\'t be empty.';
+                  return 'Message can\'t be empty.';
                 }
 
                 return null;
               },
               (onSavedVal) => {
-                reply = onSavedVal,
+                message = onSavedVal,
               },
               isMultiline: true,
               initialValue: "",
               obscureText: false,
-              borderFocusColor: Colors.blue,
-              prefixIconColor: Colors.blue,
-              borderColor: Colors.blue,
-              textColor: Colors.blue,
-              hintColor: Colors.blue.withOpacity(0.7),
+                 borderFocusColor: Colors.orange,
+              prefixIconColor: Colors.orange,
+              borderColor: Colors.black,
+              textColor: Colors.black,
+              hintColor: Colors.black.withOpacity(0.7),
               borderRadius: 10,
             ),
+
+
+
+
+
 
 
 
@@ -97,7 +129,7 @@ class _ViewContactState extends State<ViewContact> {
          
           Center(
             child: FormHelper.submitButton(
-              "Reply",
+              "Edit Chat",
               () {
                 if (validateAndSave()) {
                   setState(() {
@@ -105,11 +137,16 @@ class _ViewContactState extends State<ViewContact> {
                   });
 
                  Contact contact = Contact(
-                      reply: reply,
                      contactId: widget.contact.contactId,
-                     );
+                      email: email == ''
+                          ? widget.contact.email
+                          : email!,
+                      message: message == ''
+                          ? widget.contact.message
+                          : message!
+                          );
 
-                 Contact.Reply(contact).then(
+                 Contact.updateContact(contact).then(
                     (response) {
                       print("WORK FINE");
                       setState(() {
@@ -119,13 +156,13 @@ class _ViewContactState extends State<ViewContact> {
                       if (response != null) {
                         FormHelper.showSimpleAlertDialog(
                           context,
-                          "Message",
-                          "Replied",
+                          "My Chat",
+                          "Successfully Updated",
                           "OK",
                           () {
                             Navigator.pushNamedAndRemoveUntil(
                               context,
-                              '/',
+                              '/display-chat',
                               (route) => false,
                             );
                           },
@@ -133,7 +170,7 @@ class _ViewContactState extends State<ViewContact> {
                       } else {
                         FormHelper.showSimpleAlertDialog(
                           context,
-                          "Message",
+                          "My Chat",
                           "Process failed",
                           "OK",
                           () {

@@ -134,6 +134,17 @@ class _AccountPageState extends State<AccountPage> {
                   );
                 },  
               ),
+                   SettingItem(
+                title: "My Chats",
+                leadingIcon: "assets/icons/bookmark.svg",
+                bgIconColor: primary,
+                onTap: () {
+                Navigator.pushNamed(
+                     context,
+                   '/display-chat',
+                  );
+                },  
+              ),
             ]),
           ),
           SizedBox(

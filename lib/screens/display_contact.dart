@@ -41,7 +41,11 @@ class _DisplayContactState extends State<DisplayContact> {
                   child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text("Chat", 
-                      style: TextStyle(fontSize: 28, color: Colors.black87, fontWeight: FontWeight.w600)
+                      style: TextStyle(fontSize: 28, 
+                      
+                      color: Colors.black87, fontWeight: FontWeight.w600,
+                      
+                      )
                     ,)
                   ),
                 ),

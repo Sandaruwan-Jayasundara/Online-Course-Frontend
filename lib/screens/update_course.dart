@@ -244,11 +244,11 @@ class _UpdateCourseState extends State<UpdateCourse> {
             ),
           ),
           const SizedBox(
-            height: 60,
+            height: 40,
           ),
           imageprofile(),
           const SizedBox(
-            height: 60,
+            height: 40,
           ),
           Center(
             child: FormHelper.submitButton(

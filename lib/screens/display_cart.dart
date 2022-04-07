@@ -30,9 +30,16 @@ class _DisplayCartState extends State<DisplayCart> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orange,
-          title: const Center(
-            child: Text("Cart"),
-          ),
+               title: Expanded(
+          child: Container(
+              alignment: Alignment.centerLeft,
+              child: Center(
+                child: Text(
+                  "Cart",
+                  style: GoogleFonts.oswald(fontSize: 25),
+                ),
+              )),
+        ),
           actions: [
             IconButton(
                 onPressed: Provider.of<CartProvider>(context).total != 0

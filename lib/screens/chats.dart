@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/contact.dart';
 import 'package:frontend/theme/color.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
@@ -29,14 +30,17 @@ class _ChatsState extends State<Chats> {
     return SafeArea(
       child: Scaffold(
              appBar: AppBar(
-             title:Expanded(
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Text("Contact", 
-                      style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600)
-                    ,)
-                  ),
+                       backgroundColor: Colors.orange,
+              title: Expanded(
+          child: Container(
+              alignment: Alignment.centerLeft,
+              child: Center(
+                child: Text(
+                  "Contact",
+                  style: GoogleFonts.oswald(fontSize: 25),
                 ),
+              )),
+        ),
         
       ),
     
@@ -85,17 +89,7 @@ class _ChatsState extends State<Chats> {
             ),
            
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 20, bottom: 30),
-            child: Text(
-              "Contact",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: Colors.blue
-              ),
-            ),
-          ),
+
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FormHelper.inputFieldWidget(
@@ -114,11 +108,11 @@ class _ChatsState extends State<Chats> {
               },
               initialValue: "",
               obscureText: false,
-              borderFocusColor: Colors.blue,
-              prefixIconColor: Colors.blue,
-              borderColor: Colors.blue,
-              textColor: Colors.blue,
-              hintColor: Colors.blue.withOpacity(0.7),
+              borderFocusColor: Colors.orange,
+              prefixIconColor: Colors.orange,
+              borderColor: Colors.black,
+              textColor: Colors.black,
+              hintColor: Colors.black.withOpacity(0.7),
               borderRadius: 10,
             ),
           ),
@@ -147,11 +141,11 @@ class _ChatsState extends State<Chats> {
               isMultiline: true,
               initialValue: "",
               obscureText: false,
-              borderFocusColor: Colors.blue,
-              prefixIconColor: Colors.blue,
-              borderColor: Colors.blue,
-              textColor: Colors.blue,
-              hintColor: Colors.blue.withOpacity(0.7),
+                 borderFocusColor: Colors.orange,
+              prefixIconColor: Colors.orange,
+              borderColor: Colors.black,
+              textColor: Colors.black,
+              hintColor: Colors.black.withOpacity(0.7),
               borderRadius: 10,
             ),
 
@@ -190,7 +184,7 @@ class _ChatsState extends State<Chats> {
                           () {
                             Navigator.pushNamedAndRemoveUntil(
                               context,
-                              '/',
+                              '/home',
                               (route) => false,
                             );
                           },
@@ -213,8 +207,8 @@ class _ChatsState extends State<Chats> {
                   
                 }
               },
-              btnColor: HexColor("283B71"),
-              borderColor: Colors.white,
+            btnColor: Colors.orange,
+              borderColor: Colors.black,
               txtColor: Colors.white,
               borderRadius: 10,
             ),
